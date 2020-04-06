@@ -3,7 +3,10 @@ package main.java;
 import main.java.Users.*;
 import main.java.Features.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.Month;
 import java.util.Date;
 
 /**
@@ -51,7 +54,13 @@ public class LSEA {
         // second passenger decides not to take part in the ride:
         dummyPassenger2.cancelRide(firstRide);
         firstRide.startRide();
-        firstRide.getRideInfo();
+
+//        LocalDate aDate = LocalDate.of(2015, Month.JULY, 29);
+//        LocalTime aTime = LocalTime.of(19, 30, 40);
+//        firstRide.getRideInfo();
+//        firstRide.setRideEndDateTime(aDate, aTime);
+//        firstRide.getRideInfo();
+
         firstRide.finishRide();
 
         // print statistics of users after the ride

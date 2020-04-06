@@ -324,11 +324,23 @@ public class Ride {
 
     /**
      * Sets ride end date time.
+     * Remember that this setter HAS TO be called when you want to give any value to rideEndDateTime for the first time.
      *
      * @param rideEndDateTime date and time of the end of the ride
      */
     public void setRideEndDateTime(LocalDateTime rideEndDateTime) {
         this.rideEndDateTime = rideEndDateTime;
+    }
+
+    /**
+     * Sets ride end date time.
+     * Remember that this setter HAS TO be called when you want to give any value to rideEndDateTime for the first time.
+     *
+     * @param rideEndDate date of the end of the ride
+     * @param rideEndTime time of the end of the ride
+     */
+    public void setRideEndDateTime(LocalDate rideEndDate, LocalTime rideEndTime) {
+        this.rideEndDateTime = LocalDateTime.of(rideEndDate, rideEndTime);
     }
 
     /**
@@ -342,10 +354,15 @@ public class Ride {
 
     /**
      * Sets ride end date.
+     * The name of this setter starts with 'change' to put emphasis on the below statement:
+     * Remember that setRideEndDateTime setter HAS TO be called when you want to give any value to rideEndDateTime for the first time.
+     * Initiating (for the first time) rideEndDateTime with below setter will throw an error.
      *
      * @param rideEndDate date of the end of the ride
      */
-    public void setRideEndDate(LocalDate rideEndDate) {
+    public void changeRideEndDate(LocalDate rideEndDate) {
+        if (this.getRideEndDateTime() == null)
+            throw new NullPointerException("You need to set rideEndDateTime first using setRideEndDateTime!");
         this.rideEndDateTime = LocalDateTime.of(rideEndDate, this.getRideEndTime());
     }
 
@@ -359,12 +376,18 @@ public class Ride {
     }
 
     /**
-     * time ride end date.
+     * Sets ride end time.
+     * The name of this setter starts with 'change' to put emphasis on the below statement:
+     * Remember that setRideEndDateTime setter HAS TO be called when you want to give any value to rideEndDateTime for the first time.
+     * Initiating (for the first time) rideEndDateTime with below setter will throw an error.
      *
      * @param rideEndTime time of the end of the ride
      */
-    public void setRideEndTime(LocalTime rideEndTime) {
-        this.rideEndDateTime = LocalDateTime.of(this.getRideEndDate(), rideEndTime);
+    public void changeRideEndTime(LocalTime rideEndTime) {
+        if (this.getRideEndDateTime() == null)
+            throw new NullPointerException("You need to set rideEndDateTime first using setRideEndDateTime!");
+        LocalDateTime newDateTime = LocalDateTime.of(this.getRideEndDate(), rideEndTime);
+        this.rideEndDateTime = newDateTime;
     }
 
     /**
