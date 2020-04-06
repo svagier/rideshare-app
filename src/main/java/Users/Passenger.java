@@ -3,17 +3,43 @@ import java.util.Date;
 
 import main.java.Features.Ride;
 
+/**
+ * The type Passenger.
+ *
+ * @author Piotr Danielczyk
+ * @version 1.0
+ * @since 1.0
+ */
 public class Passenger extends User{
+
     protected boolean isSmoker;
     protected boolean isTransportingPet;
 
-    // by default, the passenger is considered non-smoker and not transporting a pet animal
+    /**
+     * Instantiates a new Passenger.
+     * by default, the passenger is considered non-smoker and not transporting a pet animal
+     *
+     * @param name  username
+     * @param first first name of the user
+     * @param last  last name of the user
+     * @param birth date of birth of the user
+     */
     public Passenger(String name, String first, String last, Date birth) {
         super(name, first, last, birth);
         this.isSmoker = false;
         this.isTransportingPet = false;
     }
 
+    /**
+     * Instantiates a new Passenger with custom settings for smoking and transporting pet.
+     *
+     * @param name              username
+     * @param first             first name of the user
+     * @param last              last name of the user
+     * @param birth             date of birth of the user
+     * @param isSmoker          the is smoker boolean
+     * @param isTransportingPet the is transporting pet boolean
+     */
     public Passenger(String name, String first, String last, Date birth, boolean isSmoker, boolean isTransportingPet) {
         super(name, first, last, birth);
         this.isSmoker = isSmoker;
@@ -21,7 +47,10 @@ public class Passenger extends User{
     }
 
     /**
-     * adds the Passenger to a given Ride. Returns false if the attempt failed.
+     * adds the Passenger to a given Ride.
+     *
+     * @param ride the Ride
+     * @return True if the attempt was successful, otherwise return false
      */
     public boolean joinRide(Ride ride) {
         if (ride.isOpen()){
@@ -41,7 +70,10 @@ public class Passenger extends User{
     }
 
     /**
-     * Removes the Passenger from a given ride. Returns false if the attempt failed.
+     * Removes the Passenger from a given Ride
+     *
+     * @param ride the Ride
+     * @return True if the attempt was successful, otherwise return false
      */
     public boolean cancelRide(Ride ride) {
         if (ride.removePassenger(this)) {
@@ -54,18 +86,38 @@ public class Passenger extends User{
         }
     }
 
+    /**
+     * Is smoker boolean.
+     *
+     * @return true if is smoker, false otherwise
+     */
     protected boolean isSmoker() {
         return isSmoker;
     }
 
+    /**
+     * Sets smoker.
+     *
+     * @param smoker  true if is smoker, false otherwise
+     */
     protected void setSmoker(boolean smoker) {
         isSmoker = smoker;
     }
 
+    /**
+     * Is transporting pet boolean.
+     *
+     * @return true if is transporting pet, false otherwise
+     */
     protected boolean isTransportingPet() {
         return isTransportingPet;
     }
 
+    /**
+     * Sets transporting pet.
+     *
+     * @param transportingPet true if is transporting pet, false otherwise
+     */
     protected void setTransportingPet(boolean transportingPet) {
         isTransportingPet = transportingPet;
     }

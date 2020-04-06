@@ -6,10 +6,9 @@ import java.util.Date;
 /**
  * Basic User class after which all specific types of users inherit.
  * @author      Piotr Danielczyk
- * @version     %I%, %G%
+ * @version     1.0
  * @since       1.0
  */
-
 abstract class User {
     private String username;
     private String firstName;
@@ -21,10 +20,10 @@ abstract class User {
     /**
      * Instantiates a new User.
      *
-     * @param name  the name
-     * @param first the first
-     * @param last  the last
-     * @param birth the birth
+     * @param name  username
+     * @param first first name of the user
+     * @param last  last name of the user
+     * @param birth date of birth of the user
      */
     public User(String name, String first, String last, Date birth) {
         this.username = name;
@@ -36,14 +35,14 @@ abstract class User {
     /**
      * Get full name string.
      *
-     * @return the string
+     * @return the full name of the user string
      */
     public String getFullName(){
         return this.firstName + ' ' + this.lastName;
     }
 
     /**
-     * Print stats.
+     * Print stats - how many Rides were completed.
      */
     public void printStats(){
         System.out.println(this.getFullName() + " has completed " + this.ridesCompleted + " rides!");
@@ -122,7 +121,7 @@ abstract class User {
     }
 
     /**
-     * Gets rides completed.
+     * Gets total number of rides completed.
      *
      * @return the rides completed
      */
@@ -131,7 +130,7 @@ abstract class User {
     }
 
     /**
-     * Increment rides completed.
+     * Increment total number of rides completed by 1.
      */
     public void incrementRidesCompleted() {
         this.ridesCompleted = this.ridesCompleted + 1;
