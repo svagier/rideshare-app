@@ -2,3 +2,5 @@
 out/
 LSEA.iml
 /src/META-INF/
+pom.xml
+src/main/java/META-INF/

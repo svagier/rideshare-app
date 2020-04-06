@@ -16,12 +16,29 @@ public class Driver extends User {
     private List<Ride> rides;
     private int passengersTransported = 0;  // counter of all passengers transported in the Driver's history
 
+    /**
+     * @param name  username
+     * @param first first name of the user
+     * @param last last name of the user
+     * @param birth date of birth of the user
+     * @param ID driver's licence ID
+     */
     public Driver(String name, String first, String last, Date birth, String ID){
         super(name, first, last, birth);
         this.driversID = ID;
         this.rides = new ArrayList<Ride>();
     }
 
+    /**
+     *
+     * @param name
+     * @param first
+     * @param last
+     * @param birth
+     * @param ID
+     * @param carModel
+     * @param licensePlate
+     */
     public Driver(String name, String first, String last, Date birth, String ID, String carModel, String licensePlate){
         super(name, first, last, birth);
         this.driversID = ID;
@@ -31,6 +48,14 @@ public class Driver extends User {
     }
 
     /**
+     * @param origin
+     * @param destination
+     * @param carModel
+     * @param licensePlate
+     * @param pricePerPassenger
+     * @param maxNumberOfPassengers
+     * @param isSmokingAccepted
+     * @return
      * creates new Ride and adds it to the Driver's list of rides
      */
     public Ride createRide(Address origin, Address destination, String carModel, String licensePlate,
