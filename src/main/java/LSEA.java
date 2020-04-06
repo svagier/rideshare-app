@@ -1,7 +1,22 @@
-import Users.*;
-import Features.*;
+package main.java;
+
+import main.java.Users.*;
+import main.java.Features.*;
 import java.util.Date;
+
+/**
+ * The main entry point of the application.
+ *
+ * @author Piotr Danielczyk
+ * @version 1.0
+ * @since 1.0
+ */
 public class LSEA {
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     */
     public static void main(String[] args) {
         /**
          * here in main we will show how the basics of the program work.
