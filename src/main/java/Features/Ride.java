@@ -3,12 +3,14 @@ package main.java.Features;
 import main.java.Users.Driver;
 import main.java.Users.Passenger;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.time.LocalDateTime;
 
 /**
  * Class that defines rides from origin A to destination B, offered by Drivers and accepted by Passengers
- * Note: in current version the ride does not have the date and time, however it may be implemented in the future
  *
  * @author Piotr Danielczyk
  * @version 1.0
@@ -25,6 +27,8 @@ public class Ride {
     private Driver driver;
     private List<Passenger> passengers;
     private boolean isOpen = true;    //if the ride is Open, then new passengers may be added (if the limit allows that)
+    private LocalDateTime rideStartDateTime;
+    private LocalDateTime rideEndDateTime;
 
     /**
      * Instantiates a new Ride.
@@ -37,9 +41,10 @@ public class Ride {
      * @param maxNumberOfPassengers the max number of passengers
      * @param isSmokingAccepted     boolean is smoking accepted
      * @param driver                the Driver
+     * @param startDateTime         the start date time
      */
     public Ride(Address origin, Address destination, String carModel, String licensePlate, double pricePerPassenger,
-         int maxNumberOfPassengers, boolean isSmokingAccepted, Driver driver) {
+         int maxNumberOfPassengers, boolean isSmokingAccepted, Driver driver, LocalDateTime startDateTime) {
         this.origin = origin;
         this.destination = destination;
         this.carModel = carModel;
@@ -49,6 +54,8 @@ public class Ride {
         this.isSmokingAccepted = isSmokingAccepted;
         this.driver = driver;
         this.passengers = new ArrayList<Passenger>();
+        this.rideStartDateTime = startDateTime;
+        this.rideEndDateTime = null;
     }
 
     /**
@@ -192,7 +199,7 @@ public class Ride {
     /**
      * Sets smoking accepted.
      *
-     * @param smokingAccepted  true if smoking is accepted, otherwise false
+     * @param smokingAccepted true if smoking is accepted, otherwise false
      */
     public void setSmokingAccepted(boolean smokingAccepted) {
         isSmokingAccepted = smokingAccepted;
@@ -257,9 +264,21 @@ public class Ride {
     }
 
     /**
+     * when the ride starts, it becomes closed, so that new passengers cannot join.
+     */
+    public void getRideInfo(){
+        if (this.getRideEndDateTime() == null)
+            System.out.println("The ride from " + this.getOrigin() + " to " + this.getDestination() + ", start: " + this.getRideStartDateTime());
+        else
+            System.out.println("The ride from " + this.getOrigin() + " to " + this.getDestination() + ", start: " + this.getRideStartDateTime() + ", end: " + this.getRideEndDateTime());
+
+    }
+
+    /**
      * Is open boolean.
      * if the ride is Open, then new passengers may be added (if the limit allows that)
-     * @return  true if the Ride is open, otherwise return false
+     *
+     * @return true if the Ride is open, otherwise return false
      */
     public boolean isOpen() {
         return isOpen;
@@ -268,9 +287,119 @@ public class Ride {
     /**
      * Sets open boolean.
      * if the ride is Open, then new passengers may be added (if the limit allows that)
+     *
      * @param open true if the Ride is open, otherwise false
      */
     public void setOpen(boolean open) {
         isOpen = open;
+    }
+
+
+    /**
+     * Gets date and time of the start of ride
+     *
+     * @return date and time of the start of ride
+     */
+    public LocalDateTime getRideStartDateTime() {
+        return rideStartDateTime;
+    }
+
+    /**
+     * Sets date and time of the start of ride
+     *
+     * @param rideStartDateTime date and time of the start of ride
+     */
+    public void setRideStartDateTime(LocalDateTime rideStartDateTime) {
+        this.rideStartDateTime = rideStartDateTime;
+    }
+
+    /**
+     * Gets date and time of the end of the ride
+     *
+     * @return date and time of the ride
+     */
+    public LocalDateTime getRideEndDateTime() {
+        return rideEndDateTime;
+    }
+
+    /**
+     * Sets ride end date time.
+     *
+     * @param rideEndDateTime date and time of the end of the ride
+     */
+    public void setRideEndDateTime(LocalDateTime rideEndDateTime) {
+        this.rideEndDateTime = rideEndDateTime;
+    }
+
+    /**
+     * Gets date of the end of the ride
+     *
+     * @return date of the ride
+     */
+    public LocalDate getRideEndDate() {
+        return rideEndDateTime.toLocalDate();
+    }
+
+    /**
+     * Sets ride end date.
+     *
+     * @param rideEndDate date of the end of the ride
+     */
+    public void setRideEndDate(LocalDate rideEndDate) {
+        this.rideEndDateTime = LocalDateTime.of(rideEndDate, this.getRideEndTime());
+    }
+
+    /**
+     * Gets time of the end of the ride
+     *
+     * @return time of the ride
+     */
+    public LocalTime getRideEndTime() {
+        return rideEndDateTime.toLocalTime();
+    }
+
+    /**
+     * time ride end date.
+     *
+     * @param rideEndTime time of the end of the ride
+     */
+    public void setRideEndTime(LocalTime rideEndTime) {
+        this.rideEndDateTime = LocalDateTime.of(this.getRideEndDate(), rideEndTime);
+    }
+
+    /**
+     * Gets date of the start of ride
+     *
+     * @return date of the start of ride
+     */
+    public LocalDate getRideStartDate() {
+        return rideStartDateTime.toLocalDate();
+    }
+
+    /**
+     * Sets date of the start of ride
+     *
+     * @param rideStartDate date of the start of ride
+     */
+    public void setRideStartDate(LocalDate rideStartDate) {
+        this.rideStartDateTime = LocalDateTime.of(rideStartDate, this.getRideStartTime());
+    }
+
+    /**
+     * Gets time of the start of ride
+     *
+     * @return time of the start of ride
+     */
+    public LocalTime getRideStartTime() {
+        return rideStartDateTime.toLocalTime();
+    }
+
+    /**
+     * Sets time of the start of ride
+     *
+     * @param rideStartTime time of the start of ride
+     */
+    public void setRideStartTime(LocalTime rideStartTime) {
+        this.rideStartDateTime = LocalDateTime.of(this.getRideStartDate(), rideStartTime);
     }
 }

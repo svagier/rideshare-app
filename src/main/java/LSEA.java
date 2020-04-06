@@ -2,6 +2,8 @@ package main.java;
 
 import main.java.Users.*;
 import main.java.Features.*;
+
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -42,13 +44,14 @@ public class LSEA {
         dummyPassenger2.printStats();
 
         // create test ride:
-        Ride firstRide = dummyDriver.createRide(gdansk, gdynia, "Fiat 126p", "GD1337", 8,3, false);
+        Ride firstRide = dummyDriver.createRide(gdansk, gdynia, "Fiat 126p", "GD1337", 8,3, false, LocalDateTime.now());
         // both passengers join the ride:
         dummyPassenger1.joinRide(firstRide);
         dummyPassenger2.joinRide(firstRide);
         // second passenger decides not to take part in the ride:
         dummyPassenger2.cancelRide(firstRide);
         firstRide.startRide();
+        firstRide.getRideInfo();
         firstRide.finishRide();
 
         // print statistics of users after the ride
