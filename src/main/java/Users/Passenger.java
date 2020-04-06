@@ -1,7 +1,7 @@
-package Users;
+package main.java.Users;
 import java.util.Date;
 
-import Features.Ride;
+import main.java.Features.Ride;
 
 public class Passenger extends User{
     protected boolean isSmoker;

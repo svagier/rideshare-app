@@ -1,4 +1,4 @@
-package Features;
+package main.java.Features;
 
 /**
  * Address class to specify destination and origin of rides

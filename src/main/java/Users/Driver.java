@@ -1,11 +1,11 @@
-package Users;
+package main.java.Users;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import Features.Address;
-import Features.Ride;
+import main.java.Features.Address;
+import main.java.Features.Ride;
 
 public class Driver extends User {
 

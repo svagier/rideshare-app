@@ -1,11 +1,11 @@
-package Features;
+package main.java.Features;
 
 /**
  * Class that defines rides from origin A to destination B, offered by Drivers and accepted by Passengers
  */
 
-import Users.Driver;
-import Users.Passenger;
+import main.java.Users.Driver;
+import main.java.Users.Passenger;
 
 import java.util.ArrayList;
 import java.util.List;
