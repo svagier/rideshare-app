@@ -44,7 +44,7 @@ public class Route implements Cloneable, Comparable<Route>{
     }
 
     /**
-     *
+     * Overriding to fulfill Comparable Interface requirements.
      * @param route2 other Route object
      * @return 1 if this.distance is greater than route2. distance, 0 if they are equal, -1 otherwise
      */

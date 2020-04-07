@@ -74,32 +74,44 @@ public class LSEA {
 
 
         //testing deep cloning:
+        System.out.println("\n\nTesting deep cloning of Route");
         Address sopot = new Address("Sopot", "Pomorska", 5);
-
         Route routeA = new Route(gdansk, gdynia, 12, false);
+        System.out.println("routeA: " + routeA);
+        System.out.println("Creating routeB, which is a clone of routeA");
         Route routeB = (Route) routeA.clone();
-        System.out.println(routeA);
-        System.out.println(routeB);
+        System.out.println("routeA: " + routeA);
+        System.out.println("routeB: " + routeB);
+        System.out.println("Changing start Address and distance in routeB.");
         routeB.setStart(sopot);
         routeB.setDistance(2);
-        System.out.println(routeA);
-        System.out.println(routeB);
+        System.out.println("Display both routes after the change to routeB. RouteA is not affected:");
+        System.out.println("routeA: " + routeA);
+        System.out.println("routeB: " + routeB);
 
         //testing Comparable interface
-        System.out.println(routeB.compareTo(routeA));
+        System.out.println("\n\nTesting Comparable interface in Route.");
+        System.out.println("routeA distance: " + routeA.getDistance());
+        System.out.println("routeB distance: " + routeB.getDistance());
+        System.out.println("Is routeA bigger than routeB? ---> " + routeA.compareTo(routeB));
+        System.out.println("Is routeB bigger than routeA? ---> " + routeB.compareTo(routeA));
+
 
         //testing Comparator
-        Ride mostExpensiveRide = dummyDriver.createRide(gdynia, gdansk, "Ford Focus", "GDA1111", 3,2, false, LocalDateTime.now());
-        Ride moreExpensiveRide = dummyDriver.createRide(gdynia, gdansk, "Fiat 125p", "GD3337", 2,1, false, LocalDateTime.now());
+        System.out.println("\n\nTesting Comparator - RidePriceComparator. List with 3 Rides with various prices per passenger is created.");
         ArrayList<Ride> ridesArr = new ArrayList<Ride>();
+        Ride mostExpensiveRide = dummyDriver.createRide(gdynia, gdansk, "Ford Focus", "GDA1111", 3,2, false, LocalDateTime.now());
+        Ride leastExpensiveRide = dummyDriver.createRide(sopot, gdansk, "Fiat 126p", "GD3437", 1.5,4, true, LocalDateTime.now());
+        Ride moreExpensiveRide = dummyDriver.createRide(gdansk, sopot, "Fiat 125p", "GD3337", 2,1, true, LocalDateTime.now());
+
         ridesArr.add(moreExpensiveRide);
         ridesArr.add(mostExpensiveRide);
-        ridesArr.add(firstRide);
-        System.out.println("Unsorted:");
+        ridesArr.add(leastExpensiveRide);
+        System.out.println("Unsorted (values of pricePerPassenger):");
         for (int i=0; i<ridesArr.size(); i++)
             System.out.println(ridesArr.get(i).getPricePerPassenger());
         Collections.sort(ridesArr, new RidePriceComparator());
-        System.out.println("Sorted:");
+        System.out.println("Sorted (values of pricePerPassenger):");
         for (int i=0; i<ridesArr.size(); i++)
             System.out.println(ridesArr.get(i).getPricePerPassenger());
 
