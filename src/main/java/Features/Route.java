@@ -3,7 +3,7 @@ package main.java.Features;
 /**
  * The type Route. Specifies a route from address A to address B.
  */
-public class Route implements Cloneable{
+public class Route implements Cloneable, Comparable<Route>{
     private Address start;
     private Address end;
     private int distance;
@@ -22,6 +22,27 @@ public class Route implements Cloneable{
         this.end = destination;
         this.distance = distance;
         this.doesContainPaidRoads = doesContainPaidRoads;
+    }
+
+    @Override
+    public Route clone() throws CloneNotSupportedException {
+        Route cloned = (Route) super.clone();
+        cloned.setStart((Address)cloned.getStart().clone());
+        return cloned;
+    }
+
+    public int compareTo(Route route2) {
+        if (this.getDistance() == route2.getDistance())
+            return 0;
+        else if (this.getDistance() > route2.getDistance())
+            return 1;
+        else
+            return -1;
+    }
+
+    @Override
+    public String toString() {
+        return "Route from " + this.getStart() + " to " + this.getEnd() + ", distance: " + this.getDistance() + " km.";
     }
 
     /**

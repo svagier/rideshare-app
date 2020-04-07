@@ -22,7 +22,7 @@ public class LSEA {
      *
      * @param args the input arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws CloneNotSupportedException {
         /**
          * here in main we will show how the basics of the program work.
          * We will create exemplary users, and add them to an exemplary ride.
@@ -69,5 +69,22 @@ public class LSEA {
         dummyPassenger1.printStats();
         dummyPassenger2.printStats();
 
+
+
+        //testing deep cloning:
+        Address sopot = new Address("Sopot", "Pomorska", 5);
+
+        Route routeA = new Route(gdansk, gdynia, 12, false);
+        Route routeB = routeA.clone();
+        System.out.println(routeA);
+        System.out.println(routeB);
+        routeB.setStart(sopot);
+        routeB.setDistance(2);
+        System.out.println(routeA);
+        System.out.println(routeB);
+
+
+        //testing Comparable interface
+        System.out.println(routeB.compareTo(routeA));
     }
 }
