@@ -17,6 +17,10 @@ import java.time.LocalDateTime;
  * @since 1.0
  */
 public class Ride {
+    /**
+     * The enum Reason for driving, which describes why the Driver decided to create this Ride.
+     * By default UNSPECIFIED is chosen
+     */
     enum ReasonForDriving {
         PURELY_FOR_PROFIT,
         REDUCING_COST_OF_TRAVEL,
@@ -50,6 +54,7 @@ public class Ride {
      * @param isSmokingAccepted     boolean is smoking accepted
      * @param driver                the Driver
      * @param startDateTime         the start date time
+     * @param reason                the reason why the driver created the ride (enum)
      */
 
     public Ride(Address origin, Address destination, String carModel, String licensePlate, double pricePerPassenger,
@@ -68,6 +73,19 @@ public class Ride {
         this.rideReason = reason;
     }
 
+    /**
+     * Instantiates a new Ride, without info about ride reason, which is not compulsory.
+     *
+     * @param origin                the origin
+     * @param destination           the destination
+     * @param carModel              the car model
+     * @param licensePlate          the license plate number
+     * @param pricePerPassenger     the price per passenger
+     * @param maxNumberOfPassengers the max number of passengers
+     * @param isSmokingAccepted     boolean is smoking accepted
+     * @param driver                the Driver
+     * @param startDateTime         the start date time
+     */
     public Ride(Address origin, Address destination, String carModel, String licensePlate, double pricePerPassenger,
          int maxNumberOfPassengers, boolean isSmokingAccepted, Driver driver, LocalDateTime startDateTime) {
         this.origin = origin;
@@ -452,10 +470,20 @@ public class Ride {
         this.rideStartDateTime = LocalDateTime.of(this.getRideStartDate(), rideStartTime);
     }
 
+    /**
+     * Gets Ride reason.
+     *
+     * @return the ride reason - enum ReasonForDriving
+     */
     public ReasonForDriving getRideReason() {
         return rideReason;
     }
 
+    /**
+     * Sets Ride reason.
+     *
+     * @param rideReason the ride reason - enum ReasonForDriving
+     */
     public void setRideReason(ReasonForDriving rideReason) {
         this.rideReason = rideReason;
     }

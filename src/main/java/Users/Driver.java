@@ -11,15 +11,13 @@ import main.java.Features.Ride;
 
 /**
  * The type Driver.
+ * right now car model and car license plate are not obligatory - it may change in the future
  *
  * @author Piotr Danielczyk
  * @version 1.0
  * @since 1.0
  */
 public class Driver extends User {
-    /**
-     *     right now car model and car license plate are not obligatory - it may change in the future
-     */
     private String defaultCarModel = null;
     private String defaultLicensePlate = null;
     private String driversID;
@@ -81,7 +79,9 @@ public class Driver extends User {
         return(newRide);
     }
 
-
+    /**
+     * Prints general information (statistics) about the Driver
+     */
     public void printStats(){
         String passengersPrefix;
         if (this.getPassengersTransported() == 1) {

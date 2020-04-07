@@ -78,6 +78,9 @@ public class Address implements Cloneable {
         }
     }
 
+    /**
+     * overriding clone() method and dealing with CloneNotSupportedException exception
+     */
     @Override
     public Object clone() {
         try {

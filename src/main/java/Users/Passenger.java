@@ -12,6 +12,9 @@ import main.java.Features.Ride;
  */
 public class Passenger extends User{
 
+    /**
+     * The enum Preferred seat, which describes which seat the Passenger would prefer to take in Rides.
+     */
     public enum PreferredSeat {
         FRONT,
         BACK_LEFT,
@@ -137,10 +140,20 @@ public class Passenger extends User{
         isTransportingPet = transportingPet;
     }
 
+    /**
+     * Gets preferred seat.
+     *
+     * @return the preferred seat
+     */
     public PreferredSeat getPreferredSeat() {
         return preferredSeat;
     }
 
+    /**
+     * Sets preferred seat.
+     *
+     * @param preferredSeat the preferred seat
+     */
     public void setPreferredSeat(PreferredSeat preferredSeat) {
         this.preferredSeat = preferredSeat;
     }

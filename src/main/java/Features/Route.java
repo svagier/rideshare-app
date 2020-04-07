@@ -24,7 +24,11 @@ public class Route implements Cloneable, Comparable<Route>{
         this.doesContainPaidRoads = doesContainPaidRoads;
     }
 
-    //deep copy
+    /**
+     * Deep copy implementation - copying route.
+     * New Address is created, instead of using reference.
+     * @return new cloned object
+     */
     @Override
     public Object clone() {
         Route returnedRoute = null;
@@ -39,6 +43,12 @@ public class Route implements Cloneable, Comparable<Route>{
         return returnedRoute;
     }
 
+    /**
+     *
+     * @param route2 other Route object
+     * @return 1 if this.distance is greater than route2. distance, 0 if they are equal, -1 otherwise
+     */
+    @Override
     public int compareTo(Route route2) {
         if (this.getDistance() == route2.getDistance())
             return 0;
@@ -48,6 +58,10 @@ public class Route implements Cloneable, Comparable<Route>{
             return -1;
     }
 
+    /**
+     * Allows displaying information about the Route in a readable form
+     * @return string with information about the Route
+     */
     @Override
     public String toString() {
         return "Route from " + this.getStart() + " to " + this.getEnd() + ", distance: " + this.getDistance() + " km.";
