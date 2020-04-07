@@ -7,6 +7,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 
 /**
@@ -47,7 +49,7 @@ public class LSEA {
         dummyPassenger2.printStats();
 
         // create test ride:
-        Ride firstRide = dummyDriver.createRide(gdansk, gdynia, "Fiat 126p", "GD1337", 8,3, false, LocalDateTime.now());
+        Ride firstRide = dummyDriver.createRide(gdansk, gdynia, "Fiat 126p", "GD1337", 1,3, false, LocalDateTime.now());
         // both passengers join the ride:
         dummyPassenger1.joinRide(firstRide);
         dummyPassenger2.joinRide(firstRide);
@@ -83,8 +85,23 @@ public class LSEA {
         System.out.println(routeA);
         System.out.println(routeB);
 
-
         //testing Comparable interface
         System.out.println(routeB.compareTo(routeA));
+
+        //testing Comparator
+        Ride mostExpensiveRide = dummyDriver.createRide(gdynia, gdansk, "Ford Focus", "GDA1111", 3,2, false, LocalDateTime.now());
+        Ride moreExpensiveRide = dummyDriver.createRide(gdynia, gdansk, "Fiat 125p", "GD3337", 2,1, false, LocalDateTime.now());
+        ArrayList<Ride> ridesArr = new ArrayList<Ride>();
+        ridesArr.add(moreExpensiveRide);
+        ridesArr.add(mostExpensiveRide);
+        ridesArr.add(firstRide);
+        System.out.println("Unsorted:");
+        for (int i=0; i<ridesArr.size(); i++)
+            System.out.println(ridesArr.get(i).getPricePerPassenger());
+        Collections.sort(ridesArr, new RidePriceComparator());
+        System.out.println("Sorted:");
+        for (int i=0; i<ridesArr.size(); i++)
+            System.out.println(ridesArr.get(i).getPricePerPassenger());
+
     }
 }

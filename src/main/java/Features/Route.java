@@ -24,6 +24,7 @@ public class Route implements Cloneable, Comparable<Route>{
         this.doesContainPaidRoads = doesContainPaidRoads;
     }
 
+    //deep copy
     @Override
     public Object clone() {
         Route returnedRoute = null;
