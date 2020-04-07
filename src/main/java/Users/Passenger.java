@@ -12,12 +12,24 @@ import main.java.Features.Ride;
  */
 public class Passenger extends User{
 
+    public enum PreferredSeat {
+        FRONT,
+        BACK_LEFT,
+        BACK_RIGHT,
+        BACK_MIDDLE,
+        BACK_ANY_SIDE,
+        BACK_ANY,
+        ANY
+    }
+
     protected boolean isSmoker;
     protected boolean isTransportingPet;
+    private PreferredSeat preferredSeat;
 
     /**
      * Instantiates a new Passenger.
-     * by default, the passenger is considered non-smoker and not transporting a pet animal
+     * by default, the passenger is considered non-smoker and not transporting a pet animal.
+     * default seat preference is ANY.
      *
      * @param name  username
      * @param first first name of the user
@@ -28,10 +40,11 @@ public class Passenger extends User{
         super(name, first, last, birth);
         this.isSmoker = false;
         this.isTransportingPet = false;
+        this.preferredSeat = PreferredSeat.ANY;
     }
 
     /**
-     * Instantiates a new Passenger with custom settings for smoking and transporting pet.
+     * Instantiates a new Passenger with custom settings for smoking, preferred seat and transporting pet.
      *
      * @param name              username
      * @param first             first name of the user
@@ -39,11 +52,13 @@ public class Passenger extends User{
      * @param birth             date of birth of the user
      * @param isSmoker          the is smoker boolean
      * @param isTransportingPet the is transporting pet boolean
+     * @param seat              preferences in seating in a car as passenger
      */
-    public Passenger(String name, String first, String last, Date birth, boolean isSmoker, boolean isTransportingPet) {
+    public Passenger(String name, String first, String last, Date birth, boolean isSmoker, boolean isTransportingPet, PreferredSeat seat) {
         super(name, first, last, birth);
         this.isSmoker = isSmoker;
         this.isTransportingPet = isTransportingPet;
+        this.preferredSeat = seat;
     }
 
     /**
@@ -120,5 +135,13 @@ public class Passenger extends User{
      */
     protected void setTransportingPet(boolean transportingPet) {
         isTransportingPet = transportingPet;
+    }
+
+    public PreferredSeat getPreferredSeat() {
+        return preferredSeat;
+    }
+
+    public void setPreferredSeat(PreferredSeat preferredSeat) {
+        this.preferredSeat = preferredSeat;
     }
 }

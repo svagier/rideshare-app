@@ -17,6 +17,13 @@ import java.time.LocalDateTime;
  * @since 1.0
  */
 public class Ride {
+    enum ReasonForDriving {
+        PURELY_FOR_PROFIT,
+        REDUCING_COST_OF_TRAVEL,
+        MEETING_NEW_PEOPLE,
+        HELPING_PEOPLE,
+        UNSPECIFIED
+    }
     private Address origin;
     private Address destination;
     private String carModel;
@@ -29,6 +36,7 @@ public class Ride {
     private boolean isOpen = true;    //if the ride is Open, then new passengers may be added (if the limit allows that)
     private LocalDateTime rideStartDateTime;
     private LocalDateTime rideEndDateTime;
+    private ReasonForDriving rideReason;
 
     /**
      * Instantiates a new Ride.
@@ -43,6 +51,23 @@ public class Ride {
      * @param driver                the Driver
      * @param startDateTime         the start date time
      */
+
+    public Ride(Address origin, Address destination, String carModel, String licensePlate, double pricePerPassenger,
+                int maxNumberOfPassengers, boolean isSmokingAccepted, Driver driver, LocalDateTime startDateTime, ReasonForDriving reason) {
+        this.origin = origin;
+        this.destination = destination;
+        this.carModel = carModel;
+        this.licensePlate = licensePlate;
+        this.pricePerPassenger = pricePerPassenger;
+        this.maxNumberOfPassengers = maxNumberOfPassengers;
+        this.isSmokingAccepted = isSmokingAccepted;
+        this.driver = driver;
+        this.passengers = new ArrayList<Passenger>();
+        this.rideStartDateTime = startDateTime;
+        this.rideEndDateTime = null;
+        this.rideReason = reason;
+    }
+
     public Ride(Address origin, Address destination, String carModel, String licensePlate, double pricePerPassenger,
          int maxNumberOfPassengers, boolean isSmokingAccepted, Driver driver, LocalDateTime startDateTime) {
         this.origin = origin;
@@ -56,6 +81,7 @@ public class Ride {
         this.passengers = new ArrayList<Passenger>();
         this.rideStartDateTime = startDateTime;
         this.rideEndDateTime = null;
+        this.rideReason = ReasonForDriving.UNSPECIFIED;
     }
 
     /**
@@ -424,5 +450,13 @@ public class Ride {
      */
     public void setRideStartTime(LocalTime rideStartTime) {
         this.rideStartDateTime = LocalDateTime.of(this.getRideStartDate(), rideStartTime);
+    }
+
+    public ReasonForDriving getRideReason() {
+        return rideReason;
+    }
+
+    public void setRideReason(ReasonForDriving rideReason) {
+        this.rideReason = rideReason;
     }
 }

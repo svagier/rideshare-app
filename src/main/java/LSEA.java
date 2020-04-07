@@ -34,9 +34,9 @@ public class LSEA {
         Date birthday = new Date(1, 2, 2000);
         Driver dummyDriver = new Driver("driver_nick", "Tim", "Dunkey", birthday, "12345");
         Passenger dummyPassenger1 = new Passenger("passenger_nick", "John", "Jackson", birthday,
-                                                false, false);
+                                                false, false, Passenger.PreferredSeat.FRONT);
         Passenger dummyPassenger2 = new Passenger("passenger_nick_two", "Kate", "Mellow", birthday,
-                true, false);
+                                            true, false, Passenger.PreferredSeat.BACK_ANY_SIDE);
 
         // creating test addresses
         Address gdansk = new Address("Gdansk", "Poland", "Gabriela Narutowicza", 11);
