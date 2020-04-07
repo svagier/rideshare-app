@@ -79,8 +79,13 @@ public class Address implements Cloneable {
     }
 
     @Override
-    protected Address clone() throws CloneNotSupportedException {
-        return (Address) super.clone();
+    public Object clone() {
+        try {
+            return (Address) super.clone();
+        } catch (CloneNotSupportedException e) {
+            System.out.println("CloneNotSupportedException exception happened");
+            return new Address(this.getCity(), this.getCountry(), this.getStreet(), this.getBuildingNumber());
+        }
     }
 
     /**

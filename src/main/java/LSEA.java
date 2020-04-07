@@ -22,7 +22,7 @@ public class LSEA {
      *
      * @param args the input arguments
      */
-    public static void main(String[] args) throws CloneNotSupportedException {
+    public static void main(String[] args) {
         /**
          * here in main we will show how the basics of the program work.
          * We will create exemplary users, and add them to an exemplary ride.
@@ -75,7 +75,7 @@ public class LSEA {
         Address sopot = new Address("Sopot", "Pomorska", 5);
 
         Route routeA = new Route(gdansk, gdynia, 12, false);
-        Route routeB = routeA.clone();
+        Route routeB = (Route) routeA.clone();
         System.out.println(routeA);
         System.out.println(routeB);
         routeB.setStart(sopot);

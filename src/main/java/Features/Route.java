@@ -25,10 +25,17 @@ public class Route implements Cloneable, Comparable<Route>{
     }
 
     @Override
-    public Route clone() throws CloneNotSupportedException {
-        Route cloned = (Route) super.clone();
-        cloned.setStart((Address)cloned.getStart().clone());
-        return cloned;
+    public Object clone() {
+        Route returnedRoute = null;
+        try {
+            returnedRoute = (Route) super.clone();
+        } catch(CloneNotSupportedException e) {
+            System.out.println("CloneNotSupportedException exception happened");
+            returnedRoute = new Route(this.getStart(), this.getEnd(), this.getDistance(), this.doesContainPaidRoads());
+        }
+        returnedRoute.setStart((Address) this.start.clone());
+        returnedRoute.setEnd((Address) this.end.clone());
+        return returnedRoute;
     }
 
     public int compareTo(Route route2) {
