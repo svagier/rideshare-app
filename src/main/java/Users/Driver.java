@@ -1,13 +1,17 @@
 package main.java.Users;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import javax.imageio.ImageIO;
 
 import main.java.Features.Address;
 import main.java.Features.Ride;
+
 
 /**
  * The type Driver.
@@ -23,6 +27,9 @@ public class Driver extends User {
     private String driversID;
     private List<Ride> rides;
     private int passengersTransported = 0;
+    private BufferedImage profileImage;
+    private int imageWidth;
+    private int imageHeight;
 
     /**
      * Instantiates a new Driver.
@@ -180,5 +187,54 @@ public class Driver extends User {
      */
     public void incrementPassengersTransported() {
         this.passengersTransported = this.passengersTransported + 1;
+    }
+
+    public BufferedImage getProfileImage() {
+        return profileImage;
+    }
+
+    public void setProfileImage(BufferedImage profileImage) {
+        this.profileImage = profileImage;
+    }
+
+    public int getImageWidth() {
+        return imageWidth;
+    }
+
+    public void setImageWidth(int imageWidth) {
+        this.imageWidth = imageWidth;
+    }
+
+    public int getImageHeight() {
+        return imageHeight;
+    }
+
+    public void setImageHeight(int imageHeight) {
+        this.imageHeight = imageHeight;
+    }
+
+    public void convertImage() {
+            System.out.println("Working Directory = " + System.getProperty("user.dir"));
+            String inputPath = "input_images/img.jpg";
+        try {
+            File input = new File(inputPath);
+            this.setProfileImage(ImageIO.read(input));
+            this.setImageWidth(this.profileImage.getWidth());
+            this.setImageHeight(this.profileImage.getHeight());
+            for(int i=0; i<this.getImageHeight(); i++) {
+                for(int j=0; j<this.getImageWidth(); j++) {
+                    Color c = new Color(this.profileImage.getRGB(j, i));
+                    int green = (int)(c.getGreen() * 0.8);
+                    int onlyGreen = new Color(0, green, 0).getRGB();
+                    this.profileImage.setRGB(j,i,onlyGreen);
+                }
+            }
+            String outputPath = "output_images/c_img.jpg";
+            File output = new File(outputPath);
+            System.out.println("Image conversion done, new image saved in " + outputPath);
+            ImageIO.write(this.profileImage, "jpg", output);
+        } catch (Exception e) {
+            System.out.println("Exception:  " + e);
+        }
     }
 }
