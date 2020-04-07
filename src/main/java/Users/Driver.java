@@ -1,5 +1,7 @@
 package main.java.Users;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -9,15 +11,13 @@ import main.java.Features.Ride;
 
 /**
  * The type Driver.
+ * right now car model and car license plate are not obligatory - it may change in the future
  *
  * @author Piotr Danielczyk
  * @version 1.0
  * @since 1.0
  */
 public class Driver extends User {
-    /**
-     *     right now car model and car license plate are not obligatory - it may change in the future
-     */
     private String defaultCarModel = null;
     private String defaultLicensePlate = null;
     private String driversID;
@@ -71,15 +71,17 @@ public class Driver extends User {
      * @return creates  new Ride and adds it to the Driver's list of rides
      */
     public Ride createRide(Address origin, Address destination, String carModel, String licensePlate,
-                            double pricePerPassenger, int maxNumberOfPassengers, boolean isSmokingAccepted) {
+                           double pricePerPassenger, int maxNumberOfPassengers, boolean isSmokingAccepted, LocalDateTime startDateTime) {
         Ride newRide = new Ride(origin, destination, carModel, licensePlate, pricePerPassenger,
-                                maxNumberOfPassengers, isSmokingAccepted,this);
+                                maxNumberOfPassengers, isSmokingAccepted,this, startDateTime);
         this.rides.add(newRide);
         System.out.println(this.getFullName() + " created new ride from " + origin + " to " + destination + ".");
         return(newRide);
     }
 
-
+    /**
+     * Prints general information (statistics) about the Driver
+     */
     public void printStats(){
         String passengersPrefix;
         if (this.getPassengersTransported() == 1) {

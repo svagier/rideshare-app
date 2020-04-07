@@ -8,7 +8,7 @@ package main.java.Features;
  * @version 1.0
  * @since 1.0
  */
-public class Address {
+public class Address implements Cloneable {
     private String city;
     private String country;
     private String street;
@@ -75,6 +75,19 @@ public class Address {
         }
         else {  // if the country is Poland, we do not print "Poland"
             return getStreet() + " " + getBuildingNumber() + ", " + getCity();
+        }
+    }
+
+    /**
+     * overriding clone() method and dealing with CloneNotSupportedException exception
+     */
+    @Override
+    public Object clone() {
+        try {
+            return (Address) super.clone();
+        } catch (CloneNotSupportedException e) {
+            System.out.println("CloneNotSupportedException exception happened");
+            return new Address(this.getCity(), this.getCountry(), this.getStreet(), this.getBuildingNumber());
         }
     }
 
