@@ -90,15 +90,26 @@ public class LSEA {
         System.out.println("routeB: " + routeB);
 
         //testing Comparable interface
-        System.out.println("\n\nTesting Comparable interface in Route.");
+        System.out.println("\n\nTesting Comparable interface in Route and using sorting.");
+        Route routeC = new Route(gdansk, sopot, 4, false);
         System.out.println("routeA distance: " + routeA.getDistance());
         System.out.println("routeB distance: " + routeB.getDistance());
-        System.out.println("Is routeA bigger than routeB? ---> " + routeA.compareTo(routeB));
-        System.out.println("Is routeB bigger than routeA? ---> " + routeB.compareTo(routeA));
+        System.out.println("routeC distance: " + routeC.getDistance());
+        ArrayList<Route> routes = new ArrayList<>();
+        routes.add(routeA);
+        routes.add(routeB);
+        routes.add(routeC);
+        System.out.println("Unsorted (distance of Route):");
+        for (int i=0; i<routes.size(); i++)
+            System.out.println(routes.get(i).getDistance());
+        Collections.sort(routes);
+        System.out.println("Sorted (distance of Route):");
+        for (int i=0; i<routes.size(); i++)
+            System.out.println(routes.get(i).getDistance());
 
 
         //testing Comparator
-        System.out.println("\n\nTesting Comparator - RidePriceComparator. List with 3 Rides with various prices per passenger is created.");
+        System.out.println("\n\nTesting Comparator - RidePriceComparator - and sorting. List with 3 Rides with various prices per passenger is created.");
         ArrayList<Ride> ridesArr = new ArrayList<Ride>();
         Ride mostExpensiveRide = dummyDriver.createRide(gdynia, gdansk, "Ford Focus", "GDA1111", 3,2, false, LocalDateTime.now());
         Ride leastExpensiveRide = dummyDriver.createRide(sopot, gdansk, "Fiat 126p", "GD3437", 1.5,4, true, LocalDateTime.now());
