@@ -101,6 +101,14 @@ public class Driver extends User {
     }
 
     /**
+     * overriding toString() method to be able to print the Driver in a readable form
+     */
+    @Override
+    public String toString() {
+         return getUsername() + ", " + getFirstName() + " " + getLastName() + ", born " + getDateOfBirth() + ", license: " + getDriversID();
+    }
+
+    /**
      * Gets default car model.
      *
      * @return the default car model

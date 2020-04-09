@@ -1,5 +1,6 @@
 package main.java;
 
+import main.java.Generators.DriverGenerator;
 import main.java.Tasks.GreenifyTask;
 import main.java.Users.*;
 import main.java.Features.*;
@@ -13,6 +14,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * The main entry point of the application.
@@ -137,9 +139,12 @@ public class LSEA {
 //            System.out.println(ridesArr.get(i).getPricePerPassenger());
 
 
-
-
         //THREADS
+        DriverGenerator driverGenerator = new DriverGenerator(10000);
+        String pathToCsv = "input_data/drivers.csv";
+        ArrayList<Driver> listOfDrivers = driverGenerator.generateDrivers(pathToCsv);
+        for(int i = 0; i < listOfDrivers.size(); i++)
+            System.out.println(listOfDrivers.get(i));
         int numberOfThreads = 2;
         String inputPath = "input_images/";
         String outputPath = "output_images/";
