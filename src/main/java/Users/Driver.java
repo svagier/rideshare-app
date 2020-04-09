@@ -1,13 +1,17 @@
 package main.java.Users;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import javax.imageio.ImageIO;
 
 import main.java.Features.Address;
 import main.java.Features.Ride;
+
 
 /**
  * The type Driver.
@@ -23,6 +27,9 @@ public class Driver extends User {
     private String driversID;
     private List<Ride> rides;
     private int passengersTransported = 0;
+    private BufferedImage profileImage;
+    private int imageWidth;
+    private int imageHeight;
 
     /**
      * Instantiates a new Driver.
@@ -181,4 +188,94 @@ public class Driver extends User {
     public void incrementPassengersTransported() {
         this.passengersTransported = this.passengersTransported + 1;
     }
+
+    public BufferedImage getProfileImage() {
+        return profileImage;
+    }
+
+
+    public int getImageWidth() {
+        return imageWidth;
+    }
+
+    public void setImageWidth(int imageWidth) {
+        this.imageWidth = imageWidth;
+    }
+
+    public int getImageHeight() {
+        return imageHeight;
+    }
+
+    public void setimageHeight(int imageHeight) {
+        this.imageHeight = imageHeight;
+    }
+
+    public void setProfileImage(BufferedImage profileImage) {
+        this.profileImage = profileImage;
+    }
+
+    public void loadProfileImage(String inputPath, String inputFormat) {
+//            System.out.println("Working Directory = " + System.getProperty("user.dir"));
+        try {
+            String inputPathWithFile = inputPath + this.getUsername() + "." + inputFormat;
+            System.out.println("Attempting to read " + inputPathWithFile);
+            File input = new File(inputPathWithFile);
+            this.setProfileImage(ImageIO.read(input));
+            this.setImageWidth(this.profileImage.getWidth());
+            this.setimageHeight(this.profileImage.getHeight());
+        } catch (Exception e) {
+            System.out.println("Exception:  " + e);
+        }
+    }
+
+    public void convertImageToGreen(String outputPath, String outputFormat) {
+        try {
+            for (int i = 0; i < this.getImageHeight(); i++) {
+                for (int j = 0; j < this.getImageWidth(); j++) {
+                    Color c = new Color(this.profileImage.getRGB(j, i));
+                    int green = (int) (c.getGreen() * 0.8);
+                    int onlyGreen = new Color(0, green, 0).getRGB();
+                    this.profileImage.setRGB(j, i, onlyGreen);
+                }
+            }
+            String outputPathWithFile = outputPath + this.getUsername() + "." + outputFormat;
+            File output = new File(outputPathWithFile);
+            ImageIO.write(this.profileImage, outputFormat, output);
+            System.out.println("Image conversion done, new green image saved in " + outputPathWithFile);
+        } catch (Exception e) {
+            System.out.println("Exception:  " + e);
+        }
+    }
+
+
+    public void convertImageToMirror(String inputPath, String inputFormat, String outputPath, String outputFormat) {
+        BufferedImage mirroredImage = new BufferedImage(this.getImageWidth(), this.getImageHeight(), BufferedImage.TYPE_INT_BGR);
+        // TYPE_3BYTE_BGR or TYPE_INT_BGR for Windows, TYPE_INT_ARGB should work for Linux
+        
+        // Create mirror image pixel by pixel, row by row
+        for (int y = 0; y < this.getImageHeight(); y++)
+        {
+            // leftX starts from the left side of the profileImage and rightX starts from the right side of the profileImage
+            for (int leftX = 0, rightX = this.getImageWidth() - 1; leftX < this.getImageWidth(); leftX++, rightX--)
+            {
+                // get pixel value from the source (profileImage)
+                int pixelValue = this.getProfileImage().getRGB(leftX, y);
+                // set the pixel value from the source to a pixel with mirrored position
+                mirroredImage.setRGB(rightX, y, pixelValue);
+            }
+        }
+        try
+        {
+            String outputPathWithFile = outputPath + this.getUsername() + "." + outputFormat;
+            File output = new File(outputPathWithFile);
+            ImageIO.write(mirroredImage, outputFormat, output);
+            System.out.println("Image conversion done, new mirror image saved in " + outputPathWithFile);
+            this.setProfileImage(mirroredImage);
+        }
+        catch(IOException e)
+        {
+            System.out.println("Error: " + e);
+        }
+    }
+
 }
