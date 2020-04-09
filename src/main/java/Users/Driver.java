@@ -221,18 +221,18 @@ public class Driver extends User {
             this.setProfileImage(ImageIO.read(input));
             this.setImageWidth(this.profileImage.getWidth());
             this.setImageHeight(this.profileImage.getHeight());
-            for(int i=0; i<this.getImageHeight(); i++) {
-                for(int j=0; j<this.getImageWidth(); j++) {
+            for (int i = 0; i < this.getImageHeight(); i++) {
+                for (int j = 0; j < this.getImageWidth(); j++) {
                     Color c = new Color(this.profileImage.getRGB(j, i));
-                    int green = (int)(c.getGreen() * 0.8);
+                    int green = (int) (c.getGreen() * 0.8);
                     int onlyGreen = new Color(0, green, 0).getRGB();
-                    this.profileImage.setRGB(j,i,onlyGreen);
+                    this.profileImage.setRGB(j, i, onlyGreen);
                 }
             }
             String outputPath = "output_images/c_img.jpg";
             File output = new File(outputPath);
-            System.out.println("Image conversion done, new image saved in " + outputPath);
             ImageIO.write(this.profileImage, "jpg", output);
+            System.out.println("Image conversion done, new image saved in " + outputPath);
         } catch (Exception e) {
             System.out.println("Exception:  " + e);
         }
