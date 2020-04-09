@@ -4,3 +4,5 @@ LSEA.iml
 /src/META-INF/
 pom.xml
 src/main/java/META-INF/
+input_images/
+output_images/
