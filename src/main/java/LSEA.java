@@ -1,5 +1,6 @@
 package main.java;
 
+import main.java.Tasks.GreenifyTask;
 import main.java.Users.*;
 import main.java.Features.*;
 
@@ -10,6 +11,8 @@ import java.time.Month;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * The main entry point of the application.
@@ -30,20 +33,19 @@ public class LSEA {
          * We will create exemplary users, and add them to an exemplary ride.
          */
 
-        // creating test users
-        Date birthday = new Date(1, 2, 2000);
-        Driver dummyDriver = new Driver("driver_nick", "Tim", "Dunkey", birthday, "12345");
-        Passenger dummyPassenger1 = new Passenger("passenger_nick", "John", "Jackson", birthday,
-                                                false, false, Passenger.PreferredSeat.FRONT);
-        Passenger dummyPassenger2 = new Passenger("passenger_nick_two", "Kate", "Mellow", birthday,
-                                            true, false, Passenger.PreferredSeat.BACK_ANY_SIDE);
+//        // creating test users
+//        Date birthday = new Date(1, 2, 2000);
+//        Driver dummyDriver = new Driver("driver_nick", "Tim", "Dunkey", birthday, "12345");
+//        Passenger dummyPassenger1 = new Passenger("passenger_nick", "John", "Jackson", birthday,
+//                                                false, false, Passenger.PreferredSeat.FRONT);
+//        Passenger dummyPassenger2 = new Passenger("passenger_nick_two", "Kate", "Mellow", birthday,
+//                                            true, false, Passenger.PreferredSeat.BACK_ANY_SIDE);
 
-        String inputPath = "input_images/";
-        String outputPath = "output_images/";
 
-        dummyDriver.loadProfileImage(inputPath, "jpg");
-//        dummyDriver.convertImageToGreen(outputPath, "jpg");
-        dummyDriver.convertImageToMirror(inputPath, "jpg", outputPath, "jpg");
+
+//        dummyDriver.loadProfileImage(inputPath, "jpg");
+////        dummyDriver.convertImageToGreen(outputPath, "jpg");
+//        dummyDriver.convertImageToMirror(inputPath, "jpg", outputPath, "jpg");
 
 
 //        // creating test addresses
@@ -133,6 +135,17 @@ public class LSEA {
 //        System.out.println("Sorted (values of pricePerPassenger):");
 //        for (int i=0; i<ridesArr.size(); i++)
 //            System.out.println(ridesArr.get(i).getPricePerPassenger());
+
+
+
+
+        //THREADS
+        int numberOfThreads = 2;
+        String inputPath = "input_images/";
+        String outputPath = "output_images/";
+//        GreenifyTask greenifyTask = new GreenifyTask();
+        ExecutorService executorService = Executors.newFixedThreadPool(numberOfThreads);
+//        executorService.execute(greenifyTask);
 
     }
 }
