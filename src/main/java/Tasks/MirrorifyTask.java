@@ -86,6 +86,8 @@ public class MirrorifyTask implements Runnable {
      * Below check is just in case, because various operating systems may use different values of imageType.
      * Tested to work properly on Windows and MacOS.
      * TYPE_3BYTE_BGR or TYPE_INT_BGR for Windows and MacOS, TYPE_INT_ARGB should work for Linux
+     * https://docs.oracle.com/javase/7/docs/api/java/awt/image/BufferedImage.html
+     *
      * @return imageType, which is a static int defined in java.awt.image.BufferedImage;
      */
     private int getImageType() {
