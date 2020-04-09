@@ -41,10 +41,9 @@ public class MirrorifyTask implements Runnable {
         System.out.println("Starting to mirrorify " + this.getDrivers().size() + " driver's photos");
         for (int i=0; i < drivers.size(); i++)
             this.convertImageToMirror(drivers.get(i), this.getImageOutputPath(), this.getImageOutputFormat());
-        System.out.println("Finished mirroryfing " + this.getDrivers().size() + " driver's photos");
         long end = System.currentTimeMillis();
         long duration = end-start;
-        System.out.println("Duration: " + duration + "ms.");
+        System.out.println("Finished mirroryfing " + this.getDrivers().size() + " driver's photos. Duration: " + duration + "ms.");
     }
 
     /**
