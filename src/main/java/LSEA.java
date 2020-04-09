@@ -35,28 +35,45 @@ public class LSEA {
 //        int numberOfDrivers = 10000;  //prod
         int numberOfDrivers = 100;  //test
 
+        int numberOfSmallerLists = 3;
+        int numberOfThreads = numberOfSmallerLists * 2;
+        ExecutorService executorService = Executors.newFixedThreadPool(numberOfThreads);
         DriverGenerator driverGenerator = new DriverGenerator(numberOfDrivers);
         String pathToCsv = "input_data/drivers.csv";
         String imagesInputPath = "input_images/";
         String imageFormat = "jpg";
         ArrayList<Driver> listOfDrivers = driverGenerator.generateDrivers(pathToCsv, imagesInputPath, imageFormat);
-//        for(int i = 0; i < listOfDrivers.size(); i++)
-//            System.out.println(listOfDrivers.get(i));
-        int numberOfThreads = 2;
         String outputPath = "output_images/";
-        GreenifyTask greenifyTask = new GreenifyTask(listOfDrivers, outputPath, imageFormat);
+
+        ArrayList<ArrayList<Driver>> splitDriverLists =  driverGenerator.splitListIntoN(listOfDrivers, numberOfSmallerLists);
+        GreenifyTask splitGreenifyTask;
+        MirrorifyTask splitMirrorifyTask;
+        for (int i = 0; i < splitDriverLists.size(); i++) {
+//            System.out.println(splitDriverLists.get(i).size());
+            splitGreenifyTask = new GreenifyTask(splitDriverLists.get(i), outputPath, imageFormat);
+            splitMirrorifyTask = new MirrorifyTask(splitDriverLists.get(i), outputPath, imageFormat);
+            executorService.submit(splitGreenifyTask);
+            executorService.submit(splitMirrorifyTask);
+        }
+
+
+
+//        GreenifyTask greenifyTask = new GreenifyTask(listOfDrivers, outputPath, imageFormat);
 //        long start = System.currentTimeMillis();
 //        greenifyTask.run();
 //        long end = System.currentTimeMillis();
 //        long duration = end-start;
 //        System.out.println("Duration: " + duration);
-        MirrorifyTask mirrorifyTask = new MirrorifyTask(listOfDrivers, outputPath, imageFormat);
-//        mirrorifyTask.run();
-        ExecutorService executorService = Executors.newFixedThreadPool(numberOfThreads);
-//        executorService.execute(greenifyTask);
-        executorService.submit(greenifyTask);
-        executorService.submit(mirrorifyTask);
-//        executorService.invokeAll(greenifyTask, mirrorifyTask);
+//        MirrorifyTask mirrorifyTask = new MirrorifyTask(listOfDrivers, outputPath, imageFormat);
+
+
+//        executorService.submit(greenifyTask);
+//        executorService.submit(mirrorifyTask);
+
+
+
+
+
 
         executorService.shutdown();
         try {
@@ -64,8 +81,6 @@ public class LSEA {
         } catch (InterruptedException e) {
             executorService.shutdownNow();
         }
-
-
 
     }
 }

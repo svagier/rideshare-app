@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 
@@ -86,6 +87,29 @@ public class DriverGenerator {
             }
         }
 
+        return null;
+    }
+
+
+    public ArrayList<ArrayList<Driver>> splitListIntoN(ArrayList<Driver> drivers, int n) {
+        if (n <= drivers.size()) {  // n cannot be greater than length of the list to be split
+            ArrayList<ArrayList<Driver>> returnedList = new ArrayList<>();
+            int sublistSize = (int)Math.floor((int)((int)drivers.size()) / n);
+            System.out.println(sublistSize);
+            int upperBoundary, lowerBoundary;
+            for (int i = 0; i < n; i++) {
+                lowerBoundary = i * sublistSize;
+                if (i == (n - 1))
+                    upperBoundary = drivers.size();
+                else
+                    upperBoundary = (i+1) * sublistSize;
+                System.out.println(i + ": "  + lowerBoundary + " " + upperBoundary);
+                returnedList.add(new ArrayList<Driver>(drivers.subList(lowerBoundary, upperBoundary)));
+//                List<Driver> smallerList = drivers.subList(lowerBoundary, upperBoundary);
+//                new ArrayList<Driver>(drivers.subList(lowerBoundary, upperBoundary));
+            }
+            return returnedList;
+        }
         return null;
     }
 
