@@ -30,6 +30,7 @@ public class GreenifyTask implements Runnable {
     }
 
     public void convertImageToGreen(Driver driver, String outputPath, String outputFormat) {
+        synchronized (driver.getProfileImage()){
         try {
             for (int i = 0; i < driver.getImageHeight(); i++) {
                 for (int j = 0; j < driver.getImageWidth(); j++) {
@@ -45,6 +46,8 @@ public class GreenifyTask implements Runnable {
             System.out.println("Image conversion done, new green image saved in " + outputPathWithFile);
         } catch (Exception e) {
             System.out.println("Exception:  " + e);
+        }
+
         }
     }
 

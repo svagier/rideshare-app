@@ -4,15 +4,8 @@ import main.java.Generators.DriverGenerator;
 import main.java.Tasks.GreenifyTask;
 import main.java.Tasks.MirrorifyTask;
 import main.java.Users.*;
-import main.java.Features.*;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.Month;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -40,7 +33,7 @@ public class LSEA {
 
         //THREADS
 //        int numberOfDrivers = 10000;  //prod
-        int numberOfDrivers = 10;  //test
+        int numberOfDrivers = 100;  //test
 
         DriverGenerator driverGenerator = new DriverGenerator(numberOfDrivers);
         String pathToCsv = "input_data/drivers.csv";
@@ -51,16 +44,26 @@ public class LSEA {
 //            System.out.println(listOfDrivers.get(i));
         int numberOfThreads = 2;
         String outputPath = "output_images/";
-//        GreenifyTask greenifyTask = new GreenifyTask(listOfDrivers, outputPath, imageFormat);
+        GreenifyTask greenifyTask = new GreenifyTask(listOfDrivers, outputPath, imageFormat);
 //        long start = System.currentTimeMillis();
 //        greenifyTask.run();
 //        long end = System.currentTimeMillis();
 //        long duration = end-start;
-//        System.out.println("Duration: " + duration / 1000);
+//        System.out.println("Duration: " + duration);
         MirrorifyTask mirrorifyTask = new MirrorifyTask(listOfDrivers, outputPath, imageFormat);
-        mirrorifyTask.run();
+//        mirrorifyTask.run();
         ExecutorService executorService = Executors.newFixedThreadPool(numberOfThreads);
 //        executorService.execute(greenifyTask);
+        executorService.submit(greenifyTask);
+        executorService.submit(mirrorifyTask);
+//        executorService.invokeAll(greenifyTask, mirrorifyTask);
+
+        executorService.shutdown();
+        try {
+            executorService.awaitTermination(100, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            executorService.shutdownNow();
+        }
 
     }
 }

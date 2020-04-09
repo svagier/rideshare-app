@@ -31,7 +31,7 @@ public class MirrorifyTask implements Runnable {
     public void convertImageToMirror(Driver driver, String outputPath, String outputFormat) {
         BufferedImage mirroredImage = new BufferedImage(driver.getImageWidth(), driver.getImageHeight(), BufferedImage.TYPE_INT_BGR);
         // TYPE_3BYTE_BGR or TYPE_INT_BGR for Windows, TYPE_INT_ARGB should work for Linux
-
+        synchronized (driver.getProfileImage()){
         // Create mirror image pixel by pixel, row by row
         for (int y = 0; y < driver.getImageHeight(); y++)
         {
@@ -55,6 +55,8 @@ public class MirrorifyTask implements Runnable {
         catch(IOException e)
         {
             System.out.println("Error: " + e);
+        }
+
         }
     }
 
