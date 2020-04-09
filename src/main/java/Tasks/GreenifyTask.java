@@ -35,10 +35,16 @@ public class GreenifyTask implements Runnable {
      */
     @Override
     public void run() {
+        long start = System.currentTimeMillis();
+
+
         System.out.println("Starting to greenify " + this.getDrivers().size() + " driver's photos");
         for (int i=0; i < drivers.size(); i++)
             this.convertImageToGreen(drivers.get(i), this.getImageOutputPath(), this.getImageOutputFormat());
         System.out.println("Finished greenifying " + this.getDrivers().size() + " driver's photos");
+        long end = System.currentTimeMillis();
+        long duration = end-start;
+        System.out.println("Duration: " + duration + "ms.");
 
     }
 

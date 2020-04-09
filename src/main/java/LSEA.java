@@ -61,7 +61,7 @@ public class LSEA {
         GreenifyTask splitGreenifyTask;
         MirrorifyTask splitMirrorifyTask;
 
-        long start = System.currentTimeMillis();
+
 
         for (int i = 0; i < splitDriverLists.size(); i++) {
             splitGreenifyTask = new GreenifyTask(splitDriverLists.get(i), outputPath, imageFormat);
@@ -70,9 +70,6 @@ public class LSEA {
             executorService.submit(splitMirrorifyTask);
         }
 
-        long end = System.currentTimeMillis();
-        long duration = end-start;
-        System.out.println("Duration: " + duration);
 
 
         executorService.shutdown();
