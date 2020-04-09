@@ -45,7 +45,7 @@ public class LSEA {
         ArrayList<Driver> listOfDrivers = driverGenerator.generateDrivers(pathToCsv, imagesInputPath, imageFormat);
         String outputPath = "output_images/";
 
-        ArrayList<ArrayList<Driver>> splitDriverLists =  driverGenerator.splitListIntoN(listOfDrivers, numberOfSmallerLists);
+        ArrayList<ArrayList<Driver>> splitDriverLists = driverGenerator.splitListIntoN(listOfDrivers, numberOfSmallerLists);
         GreenifyTask splitGreenifyTask;
         MirrorifyTask splitMirrorifyTask;
         for (int i = 0; i < splitDriverLists.size(); i++) {
