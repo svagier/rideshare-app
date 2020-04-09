@@ -41,7 +41,9 @@ public class LSEA {
         String inputPath = "input_images/";
         String outputPath = "output_images/";
 
-        dummyDriver.convertImageToGreen(inputPath, "jpg", outputPath, "jpg");
+        dummyDriver.loadProfileImage(inputPath, "jpg");
+//        dummyDriver.convertImageToGreen(outputPath, "jpg");
+        dummyDriver.convertImageToMirror(inputPath, "jpg", outputPath, "jpg");
 
 
 //        // creating test addresses
