@@ -10,13 +10,22 @@ import java.util.List;
 
 public class GreenifyTask implements Runnable {
     private List<Driver> drivers;
+    private String imageOutputPath;
+    private String imageOutputFormat;
 
-    public GreenifyTask(ArrayList<Driver> driversList) {
+
+    public GreenifyTask(ArrayList<Driver> driversList, String imageOutputPath, String imageOutputFormat) {
         this.drivers = driversList;
+        this.imageOutputFormat = imageOutputFormat;
+        this.imageOutputPath = imageOutputPath;
     }
 
     @Override
     public void run() {
+        System.out.println("Starting to greenify " + this.getDrivers().size() + " driver's photos");
+        for (int i=0; i < drivers.size(); i++)
+            this.convertImageToGreen(drivers.get(i), this.getImageOutputPath(), this.getImageOutputFormat());
+        System.out.println("Finished greenifying " + this.getDrivers().size() + " driver's photos");
 
     }
 
@@ -37,5 +46,29 @@ public class GreenifyTask implements Runnable {
         } catch (Exception e) {
             System.out.println("Exception:  " + e);
         }
+    }
+
+    public String getImageOutputPath() {
+        return imageOutputPath;
+    }
+
+    public void setImageOutputPath(String imageOutputPath) {
+        this.imageOutputPath = imageOutputPath;
+    }
+
+    public String getImageOutputFormat() {
+        return imageOutputFormat;
+    }
+
+    public void setImageOutputFormat(String imageOutputFormat) {
+        this.imageOutputFormat = imageOutputFormat;
+    }
+
+    public List<Driver> getDrivers() {
+        return drivers;
+    }
+
+    public void setDrivers(List<Driver> drivers) {
+        this.drivers = drivers;
     }
 }

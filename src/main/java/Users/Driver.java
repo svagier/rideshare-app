@@ -101,6 +101,14 @@ public class Driver extends User {
     }
 
     /**
+     * overriding toString() method to be able to print the Driver in a readable form
+     */
+    @Override
+    public String toString() {
+         return getUsername() + ", " + getFirstName() + " " + getLastName() + ", born " + getDateOfBirth() + ", license: " + getDriversID();
+    }
+
+    /**
      * Gets default car model.
      *
      * @return the default car model
@@ -218,7 +226,7 @@ public class Driver extends User {
 //            System.out.println("Working Directory = " + System.getProperty("user.dir"));
         try {
             String inputPathWithFile = inputPath + this.getUsername() + "." + inputFormat;
-            System.out.println("Attempting to read " + inputPathWithFile);
+//            System.out.println("Attempting to read " + inputPathWithFile);
             File input = new File(inputPathWithFile);
             this.setProfileImage(ImageIO.read(input));
             this.setImageWidth(this.profileImage.getWidth());
