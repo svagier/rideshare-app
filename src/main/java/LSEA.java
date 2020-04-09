@@ -38,8 +38,10 @@ public class LSEA {
         Passenger dummyPassenger2 = new Passenger("passenger_nick_two", "Kate", "Mellow", birthday,
                                             true, false, Passenger.PreferredSeat.BACK_ANY_SIDE);
 
+        String inputPath = "input_images/";
+        String outputPath = "output_images/";
 
-        dummyDriver.convertImage();
+        dummyDriver.convertImageToGreen(inputPath, "jpg", outputPath, "jpg");
 
 
 //        // creating test addresses
