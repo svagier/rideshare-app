@@ -25,6 +25,8 @@ public class GreenifyTask implements Runnable {
         System.out.println("Starting to greenify " + this.getDrivers().size() + " driver's photos");
         for (int i=0; i < drivers.size(); i++)
             this.convertImageToGreen(drivers.get(i), this.getImageOutputPath(), this.getImageOutputFormat());
+        System.out.println("Finished greenifying " + this.getDrivers().size() + " driver's photos");
+
     }
 
     public void convertImageToGreen(Driver driver, String outputPath, String outputFormat) {

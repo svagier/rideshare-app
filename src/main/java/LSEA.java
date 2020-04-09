@@ -2,6 +2,7 @@ package main.java;
 
 import main.java.Generators.DriverGenerator;
 import main.java.Tasks.GreenifyTask;
+import main.java.Tasks.MirrorifyTask;
 import main.java.Users.*;
 import main.java.Features.*;
 
@@ -152,10 +153,14 @@ public class LSEA {
 //            System.out.println(listOfDrivers.get(i));
         int numberOfThreads = 2;
         String outputPath = "output_images/";
-        GreenifyTask greenifyTask = new GreenifyTask(listOfDrivers, outputPath, imageFormat);
-        greenifyTask.run();
-
-
+//        GreenifyTask greenifyTask = new GreenifyTask(listOfDrivers, outputPath, imageFormat);
+//        long start = System.currentTimeMillis();
+//        greenifyTask.run();
+//        long end = System.currentTimeMillis();
+//        long duration = end-start;
+//        System.out.println("Duration: " + duration / 1000);
+        MirrorifyTask mirrorifyTask = new MirrorifyTask(listOfDrivers, outputPath, imageFormat);
+        mirrorifyTask.run();
         ExecutorService executorService = Executors.newFixedThreadPool(numberOfThreads);
 //        executorService.execute(greenifyTask);
 

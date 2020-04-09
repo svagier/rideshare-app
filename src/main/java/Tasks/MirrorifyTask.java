@@ -10,17 +10,25 @@ import java.util.ArrayList;
 
 public class MirrorifyTask implements Runnable {
     private ArrayList<Driver> drivers;
+    private String imageOutputPath;
+    private String imageOutputFormat;
 
-    public MirrorifyTask(ArrayList<Driver> driversList) {
+    public MirrorifyTask(ArrayList<Driver> driversList, String imageOutputPath, String imageOutputFormat) {
         this.drivers = driversList;
+        this.imageOutputFormat = imageOutputFormat;
+        this.imageOutputPath = imageOutputPath;
     }
 
     @Override
     public void run() {
+        System.out.println("Starting to mirrorify " + this.getDrivers().size() + " driver's photos");
+        for (int i=0; i < drivers.size(); i++)
+            this.convertImageToMirror(drivers.get(i), this.getImageOutputPath(), this.getImageOutputFormat());
+        System.out.println("Finished mirroryfing " + this.getDrivers().size() + " driver's photos");
 
     }
 
-    public void convertImageToMirror(Driver driver, String inputPath, String inputFormat, String outputPath, String outputFormat) {
+    public void convertImageToMirror(Driver driver, String outputPath, String outputFormat) {
         BufferedImage mirroredImage = new BufferedImage(driver.getImageWidth(), driver.getImageHeight(), BufferedImage.TYPE_INT_BGR);
         // TYPE_3BYTE_BGR or TYPE_INT_BGR for Windows, TYPE_INT_ARGB should work for Linux
 
@@ -48,5 +56,29 @@ public class MirrorifyTask implements Runnable {
         {
             System.out.println("Error: " + e);
         }
+    }
+
+    public ArrayList<Driver> getDrivers() {
+        return drivers;
+    }
+
+    public void setDrivers(ArrayList<Driver> drivers) {
+        this.drivers = drivers;
+    }
+
+    public String getImageOutputPath() {
+        return imageOutputPath;
+    }
+
+    public void setImageOutputPath(String imageOutputPath) {
+        this.imageOutputPath = imageOutputPath;
+    }
+
+    public String getImageOutputFormat() {
+        return imageOutputFormat;
+    }
+
+    public void setImageOutputFormat(String imageOutputFormat) {
+        this.imageOutputFormat = imageOutputFormat;
     }
 }
