@@ -140,17 +140,22 @@ public class LSEA {
 
 
         //THREADS
-        DriverGenerator driverGenerator = new DriverGenerator(10000);
+//        int numberOfDrivers = 10000;  //prod
+        int numberOfDrivers = 10;  //test
+
+        DriverGenerator driverGenerator = new DriverGenerator(numberOfDrivers);
         String pathToCsv = "input_data/drivers.csv";
         String imagesInputPath = "input_images/";
         String imageFormat = "jpg";
         ArrayList<Driver> listOfDrivers = driverGenerator.generateDrivers(pathToCsv, imagesInputPath, imageFormat);
-        for(int i = 0; i < listOfDrivers.size(); i++)
-            System.out.println(listOfDrivers.get(i));
+//        for(int i = 0; i < listOfDrivers.size(); i++)
+//            System.out.println(listOfDrivers.get(i));
         int numberOfThreads = 2;
-        String inputPath = "input_images/";
         String outputPath = "output_images/";
-//        GreenifyTask greenifyTask = new GreenifyTask();
+        GreenifyTask greenifyTask = new GreenifyTask(listOfDrivers, outputPath, imageFormat);
+        greenifyTask.run();
+
+
         ExecutorService executorService = Executors.newFixedThreadPool(numberOfThreads);
 //        executorService.execute(greenifyTask);
 

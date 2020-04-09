@@ -226,7 +226,7 @@ public class Driver extends User {
 //            System.out.println("Working Directory = " + System.getProperty("user.dir"));
         try {
             String inputPathWithFile = inputPath + this.getUsername() + "." + inputFormat;
-            System.out.println("Attempting to read " + inputPathWithFile);
+//            System.out.println("Attempting to read " + inputPathWithFile);
             File input = new File(inputPathWithFile);
             this.setProfileImage(ImageIO.read(input));
             this.setImageWidth(this.profileImage.getWidth());

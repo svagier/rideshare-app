@@ -27,6 +27,7 @@ public class DriverGenerator {
         String separator = ",";
 
         try {
+            System.out.println("Starting to generate " + this.getNumberOfDrivers() + " drivers with photos.");
             br = new BufferedReader(new FileReader(csvPath));
             int iterator = 0;
             // while there are lines in the file and there is still space on the list of drivers
@@ -47,6 +48,7 @@ public class DriverGenerator {
                 // source of photos: http://vis-www.cs.umass.edu/lfw/
                 newDriver.loadProfileImage(imagesInputPath, imageFormat);
             }
+            System.out.println("Finished generating " + this.getNumberOfDrivers() + " drivers with photos.");
             return listOfDrivers;
 
         } catch (FileNotFoundException e) {
