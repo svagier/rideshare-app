@@ -17,7 +17,7 @@ public class DriverGenerator {
     public DriverGenerator(int numberOfDrivers) {
         this.numberOfDrivers = numberOfDrivers;
     }
-    public ArrayList<Driver> generateDrivers(String csvPath) {
+    public ArrayList<Driver> generateDrivers(String csvPath, String imagesInputPath, String imageFormat) {
         ArrayList<Driver> listOfDrivers = new ArrayList<Driver>();
         Random rand = new Random();
 
@@ -43,6 +43,9 @@ public class DriverGenerator {
                 // adding newly created driver to the list
                 Driver newDriver = new Driver(data[0], data[1], data[2], birthday, data[4]);
                 listOfDrivers.add(newDriver);
+                // adding photo to the Driver
+                // source of photos: http://vis-www.cs.umass.edu/lfw/
+                newDriver.loadProfileImage(imagesInputPath, imageFormat);
             }
             return listOfDrivers;
 

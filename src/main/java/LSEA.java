@@ -142,7 +142,9 @@ public class LSEA {
         //THREADS
         DriverGenerator driverGenerator = new DriverGenerator(10000);
         String pathToCsv = "input_data/drivers.csv";
-        ArrayList<Driver> listOfDrivers = driverGenerator.generateDrivers(pathToCsv);
+        String imagesInputPath = "input_images/";
+        String imageFormat = "jpg";
+        ArrayList<Driver> listOfDrivers = driverGenerator.generateDrivers(pathToCsv, imagesInputPath, imageFormat);
         for(int i = 0; i < listOfDrivers.size(); i++)
             System.out.println(listOfDrivers.get(i));
         int numberOfThreads = 2;
