@@ -7,10 +7,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class MirrorifyTask implements Runnable {
-    private List<Driver> drivers;
+    private ArrayList<Driver> drivers;
 
     public MirrorifyTask(ArrayList<Driver> driversList) {
         this.drivers = driversList;
