@@ -102,7 +102,6 @@ public class DriverGenerator {
         if (n <= drivers.size()) {  // n cannot be greater than length of the list to be split
             ArrayList<ArrayList<Driver>> returnedList = new ArrayList<>();
             int sublistSize = (int)Math.floor((int)((int)drivers.size()) / n);
-            System.out.println(sublistSize);
             int upperBoundary, lowerBoundary;
             for (int i = 0; i < n; i++) {
                 lowerBoundary = i * sublistSize;
@@ -110,7 +109,7 @@ public class DriverGenerator {
                     upperBoundary = drivers.size();
                 else
                     upperBoundary = (i+1) * sublistSize;
-                System.out.println(i + ": "  + lowerBoundary + " " + upperBoundary);
+//                System.out.println(i + ": "  + lowerBoundary + " " + upperBoundary);
                 returnedList.add(new ArrayList<Driver>(drivers.subList(lowerBoundary, upperBoundary)));
             }
             return returnedList;

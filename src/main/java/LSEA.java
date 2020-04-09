@@ -24,20 +24,28 @@ public class LSEA {
      * @param args the input arguments
      */
     public static void main(String[] args) {
+        //THREADS below
         /**
-         *
+         * numberOfDrivers - how many Drivers should be created. Max number in current version is 10000, because that's
+         *                   how many data rows for drivers are created in csv and how many unique images are available
+         * numberOfSmallerLists - into how many sublists should be the list of all Drivers be divided into
+         * numberOfThreads - //twice as many as numberOfSmallerLists, because each list uses 2 threads: Mirrorify and Greenify
          */
-
-
-
-
-        //THREADS
-//        int numberOfDrivers = 10000;  //prod
-        int numberOfDrivers = 100;  //test
-
+        int numberOfDrivers = 100;
         int numberOfSmallerLists = 3;
         int numberOfThreads = numberOfSmallerLists * 2;
-        ExecutorService executorService = Executors.newFixedThreadPool(numberOfThreads);
+
+        ExecutorService executorService = Executors.newFixedThreadPool(numberOfThreads);    // executorService for 'management' of threads
+
+        /**
+         * Generating list of Drivers using DriverGenerator. Text data for generation is taken from csv
+         * (username, first name, last name, driver's license id).
+         * Username is unique.
+         * Images are taken from specified directory. Each file's name is equal to a username, so that each user
+         * has an unique photo.
+         * There are currently 10000 rows in csv and 10000 photos.
+         * Images are saved after modifications (Greenify and Mirrorify) to output path.
+         */
         DriverGenerator driverGenerator = new DriverGenerator(numberOfDrivers);
         String pathToCsv = "input_data/drivers.csv";
         String imagesInputPath = "input_images/";
@@ -45,34 +53,26 @@ public class LSEA {
         ArrayList<Driver> listOfDrivers = driverGenerator.generateDrivers(pathToCsv, imagesInputPath, imageFormat);
         String outputPath = "output_images/";
 
+        /**
+         * List of drivers is split into a specified number of sublists and an adequate number of threads (Tasks) is created.
+         * Duration is measured.
+         */
         ArrayList<ArrayList<Driver>> splitDriverLists = driverGenerator.splitListIntoN(listOfDrivers, numberOfSmallerLists);
         GreenifyTask splitGreenifyTask;
         MirrorifyTask splitMirrorifyTask;
+
+        long start = System.currentTimeMillis();
+
         for (int i = 0; i < splitDriverLists.size(); i++) {
-//            System.out.println(splitDriverLists.get(i).size());
             splitGreenifyTask = new GreenifyTask(splitDriverLists.get(i), outputPath, imageFormat);
             splitMirrorifyTask = new MirrorifyTask(splitDriverLists.get(i), outputPath, imageFormat);
             executorService.submit(splitGreenifyTask);
             executorService.submit(splitMirrorifyTask);
         }
 
-
-
-//        GreenifyTask greenifyTask = new GreenifyTask(listOfDrivers, outputPath, imageFormat);
-//        long start = System.currentTimeMillis();
-//        greenifyTask.run();
-//        long end = System.currentTimeMillis();
-//        long duration = end-start;
-//        System.out.println("Duration: " + duration);
-//        MirrorifyTask mirrorifyTask = new MirrorifyTask(listOfDrivers, outputPath, imageFormat);
-
-
-//        executorService.submit(greenifyTask);
-//        executorService.submit(mirrorifyTask);
-
-
-
-
+        long end = System.currentTimeMillis();
+        long duration = end-start;
+        System.out.println("Duration: " + duration);
 
 
         executorService.shutdown();
@@ -81,6 +81,5 @@ public class LSEA {
         } catch (InterruptedException e) {
             executorService.shutdownNow();
         }
-
     }
 }
