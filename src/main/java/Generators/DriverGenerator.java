@@ -11,12 +11,33 @@ import java.util.Date;
 import java.util.Random;
 
 
+/**
+ * Generates list of drivers, based on data from .csv with random names and ids
+ */
 public class DriverGenerator {
     private int numberOfDrivers;
 
+    /**
+     * Instantiates a new Driver generator.
+     *
+     * @param numberOfDrivers the number of drivers to be generated
+     */
     public DriverGenerator(int numberOfDrivers) {
         this.numberOfDrivers = numberOfDrivers;
     }
+
+    /**
+     * Generate drivers array list. Loads username, first name, last name and drivers license id from csv file.
+     * The values are randomly generated, the usernames are unique.
+     * It also adds profile images to each Driver object. The images are in directory specified by input path.
+     * All images are unique and named with unique username, so that each Driver gets dedicated and unique photo.
+     * All images are from a dataset available for use and testing. http://vis-www.cs.umass.edu/lfw/
+     *
+     * @param csvPath         the csv path
+     * @param imagesInputPath the images input path
+     * @param imageFormat     the image format
+     * @return the array list
+     */
     public ArrayList<Driver> generateDrivers(String csvPath, String imagesInputPath, String imageFormat) {
         ArrayList<Driver> listOfDrivers = new ArrayList<Driver>();
         Random rand = new Random();
@@ -69,10 +90,20 @@ public class DriverGenerator {
     }
 
 
+    /**
+     * Gets number of drivers.
+     *
+     * @return the number of drivers
+     */
     public int getNumberOfDrivers() {
         return numberOfDrivers;
     }
 
+    /**
+     * Sets number of drivers.
+     *
+     * @param numberOfDrivers the number of drivers
+     */
     public void setNumberOfDrivers(int numberOfDrivers) {
         assert numberOfDrivers < 10000 : "currently only have 10000unique username records in a file";
         this.numberOfDrivers = numberOfDrivers;
