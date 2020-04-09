@@ -1,5 +1,13 @@
 package main.java.Features;
 
+import main.java.Users.Driver;
+import main.java.Users.Passenger;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+
 /**
  * Address class to specify destination and origin of rides
  * (addresses to pickup passengers, to drop them off etc)
@@ -51,19 +59,102 @@ public class Address implements Cloneable {
      * @param args the input arguments
      */
     public static void main(String[] args) {
+
         /**
-         * generating various addresses
+         * below: exemplary code from previous labs, showing how basics of the app work
          */
+                // creating test addresses
         Address gdansk = new Address("Gdansk", "Poland", "Gabriela Narutowicza", 11);
         Address gdynia = new Address("Gdynia", "Poland", "Morska", 81);
-        Address berlin = new Address("Berlin", "Germany", "Weissestrasse", 21);
-        Address brest = new Address("Brest", "Belarus", "Sovetskaya", 143);
-        System.out.println("Examples of addresses:");
-        System.out.println(gdansk);
-        System.out.println(gdynia);
-        System.out.println(berlin);
-        System.out.println(brest);
+//        // creating test users
+        Date birthday = new Date(1, 2, 2000);
+        Driver dummyDriver = new Driver("driver_nick", "Tim", "Dunkey", birthday, "12345");
+//        Passenger dummyPassenger1 = new Passenger("passenger_nick", "John", "Jackson", birthday,
+//                                                false, false, Passenger.PreferredSeat.FRONT);
+//        Passenger dummyPassenger2 = new Passenger("passenger_nick_two", "Kate", "Mellow", birthday,
+//                                            true, false, Passenger.PreferredSeat.BACK_ANY_SIDE);
+//
+//        // print statistics of users before the ride
+//        System.out.println("\nSTATS BEFORE RIDE:");
+//        dummyDriver.printStats();
+//        dummyPassenger1.printStats();
+//        dummyPassenger2.printStats();
+//
+//        // create test ride:
+//        Ride firstRide = dummyDriver.createRide(gdansk, gdynia, "Fiat 126p", "GD1337", 1,3, false, LocalDateTime.now());
+//        // both passengers join the ride:
+//        dummyPassenger1.joinRide(firstRide);
+//        dummyPassenger2.joinRide(firstRide);
+//        // second passenger decides not to take part in the ride:
+//        dummyPassenger2.cancelRide(firstRide);
+//        firstRide.startRide();
+//        firstRide.finishRide();
+//
+//        // print statistics of users after the ride
+//        System.out.println("\nSTATS AFTER RIDE:");
+//        dummyDriver.printStats();
+//        dummyPassenger1.printStats();
+//        dummyPassenger2.printStats();
+
+
+
+        //testing deep cloning:
+        /**
+         * below: functionalities from Lab2 presented:
+         */
+        System.out.println("\n\nTesting deep cloning of Route");
+        Address sopot = new Address("Sopot", "Pomorska", 5);
+        Route routeA = new Route(gdansk, gdynia, 12, false);
+        System.out.println("routeA: " + routeA);
+        System.out.println("Creating routeB, which is a clone of routeA");
+        Route routeB = (Route) routeA.clone();
+        System.out.println("routeA: " + routeA);
+        System.out.println("routeB: " + routeB);
+        System.out.println("Changing start Address and distance in routeB.");
+        routeB.setStart(sopot);
+        routeB.setDistance(3);
+        System.out.println("Display both routes after the change to routeB. RouteA is not affected:");
+        System.out.println("routeA: " + routeA);
+        System.out.println("routeB: " + routeB);
+
+        //testing Comparable interface
+        System.out.println("\n\nTesting Comparable interface in Route and using sorting.");
+        Route routeC = new Route(gdansk, sopot, 4, false);
+        System.out.println("routeA distance: " + routeA.getDistance());
+        System.out.println("routeB distance: " + routeB.getDistance());
+        System.out.println("routeC distance: " + routeC.getDistance());
+        ArrayList<Route> routes = new ArrayList<>();
+        routes.add(routeA);
+        routes.add(routeB);
+        routes.add(routeC);
+        System.out.println("Unsorted (distance of Route):");
+        for (int i=0; i<routes.size(); i++)
+            System.out.println(routes.get(i).getDistance());
+        Collections.sort(routes);
+        System.out.println("Sorted (distance of Route):");
+        for (int i=0; i<routes.size(); i++)
+            System.out.println(routes.get(i).getDistance());
+
+
+        //testing Comparator
+        System.out.println("\n\nTesting Comparator - RidePriceComparator - and sorting. List with 3 Rides with various prices per passenger is created.");
+        ArrayList<Ride> ridesArr = new ArrayList<Ride>();
+        Ride mostExpensiveRide = dummyDriver.createRide(gdynia, gdansk, "Ford Focus", "GDA1111", 3,2, false, LocalDateTime.now());
+        Ride leastExpensiveRide = dummyDriver.createRide(sopot, gdansk, "Fiat 126p", "GD3437", 1.5,4, true, LocalDateTime.now());
+        Ride moreExpensiveRide = dummyDriver.createRide(gdansk, sopot, "Fiat 125p", "GD3337", 2,1, true, LocalDateTime.now());
+
+        ridesArr.add(moreExpensiveRide);
+        ridesArr.add(mostExpensiveRide);
+        ridesArr.add(leastExpensiveRide);
+        System.out.println("Unsorted (values of pricePerPassenger):");
+        for (int i=0; i<ridesArr.size(); i++)
+            System.out.println(ridesArr.get(i).getPricePerPassenger());
+        Collections.sort(ridesArr, new RidePriceComparator());
+        System.out.println("Sorted (values of pricePerPassenger):");
+        for (int i=0; i<ridesArr.size(); i++)
+            System.out.println(ridesArr.get(i).getPricePerPassenger());
     }
+
 
     /**
      * overriding toString() method to be able to print the address in a readable form
