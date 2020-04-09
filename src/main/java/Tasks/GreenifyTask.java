@@ -43,7 +43,7 @@ public class GreenifyTask implements Runnable {
             String outputPathWithFile = outputPath + driver.getUsername() + "." + outputFormat;
             File output = new File(outputPathWithFile);
             ImageIO.write(driver.getProfileImage(), outputFormat, output);
-            System.out.println("Image conversion done, new green image saved in " + outputPathWithFile);
+//            System.out.println("Image conversion done, new green image saved in " + outputPathWithFile);
         } catch (Exception e) {
             System.out.println("Exception:  " + e);
         }

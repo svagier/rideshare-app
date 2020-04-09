@@ -33,7 +33,7 @@ public class LSEA {
 
         //THREADS
 //        int numberOfDrivers = 10000;  //prod
-        int numberOfDrivers = 100;  //test
+        int numberOfDrivers = 1;  //test
 
         DriverGenerator driverGenerator = new DriverGenerator(numberOfDrivers);
         String pathToCsv = "input_data/drivers.csv";
@@ -64,6 +64,10 @@ public class LSEA {
         } catch (InterruptedException e) {
             executorService.shutdownNow();
         }
+//        System.getProperty("os.name")
+        System.out.println(System.getProperty("os.name"));
+//        System.getProperties().list(System.out);
+
 
     }
 }

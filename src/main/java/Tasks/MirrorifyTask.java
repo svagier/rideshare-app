@@ -7,8 +7,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class MirrorifyTask implements Runnable {
+
     private ArrayList<Driver> drivers;
     private String imageOutputPath;
     private String imageOutputFormat;
@@ -29,7 +31,27 @@ public class MirrorifyTask implements Runnable {
     }
 
     public void convertImageToMirror(Driver driver, String outputPath, String outputFormat) {
-        BufferedImage mirroredImage = new BufferedImage(driver.getImageWidth(), driver.getImageHeight(), BufferedImage.TYPE_INT_BGR);
+        // set the RGB/BGR imageType variable accordingly to the OS
+        int imageType = BufferedImage.TYPE_INT_ARGB;
+        String osName = System.getProperty("os.name");
+        try {
+            if (osName == null) {
+                throw new IOException("Operating System name not found.");
+            }
+            osName = osName.toLowerCase(Locale.ENGLISH);
+            System.out.println("------------This is " + osName + "!------------");
+            if (osName.contains("windows")) {
+                imageType = BufferedImage.TYPE_INT_BGR;
+            } else if (osName.contains("mac os")) {
+                imageType = BufferedImage.TYPE_INT_BGR;     //<----CHANGE HERE
+            } else
+                imageType = BufferedImage.TYPE_INT_ARGB;
+        } catch (Exception e) {
+            System.out.println("Error while getting Operating System name: " + e);
+        }
+
+
+        BufferedImage mirroredImage = new BufferedImage(driver.getImageWidth(), driver.getImageHeight(), imageType);
         // TYPE_3BYTE_BGR or TYPE_INT_BGR for Windows, TYPE_INT_ARGB should work for Linux
         synchronized (driver.getProfileImage()){
         // Create mirror image pixel by pixel, row by row
@@ -49,7 +71,7 @@ public class MirrorifyTask implements Runnable {
             String outputPathWithFile = outputPath + driver.getUsername() + "." + outputFormat;
             File output = new File(outputPathWithFile);
             ImageIO.write(mirroredImage, outputFormat, output);
-            System.out.println("Image conversion done, new mirror image saved in " + outputPathWithFile);
+//            System.out.println("Image conversion done, new mirror image saved in " + outputPathWithFile);
             driver.setProfileImage(mirroredImage);
         }
         catch(IOException e)
