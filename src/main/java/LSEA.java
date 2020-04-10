@@ -31,8 +31,8 @@ public class LSEA {
          * numberOfSmallerLists - into how many sublists should be the list of all Drivers be divided into
          * numberOfThreads - //twice as many as numberOfSmallerLists, because each list uses 2 threads: Mirrorify and Greenify
          */
-        int numberOfDrivers = 7500;
-        int numberOfSmallerLists = 10;
+        int numberOfDrivers = 300;   // less than I used because the images weigh too much to include them on eNauczanie
+        int numberOfSmallerLists = 2;
         int numberOfThreads = numberOfSmallerLists * 2;
 
         ExecutorService executorService = Executors.newFixedThreadPool(numberOfThreads);    // executorService for 'management' of threads
