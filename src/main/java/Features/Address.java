@@ -1,12 +1,10 @@
 package main.java.Features;
 
 import main.java.Users.Driver;
-import main.java.Users.Passenger;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 
 /**
  * Address class to specify destination and origin of rides
@@ -67,8 +65,7 @@ public class Address implements Cloneable {
         Address gdansk = new Address("Gdansk", "Poland", "Gabriela Narutowicza", 11);
         Address gdynia = new Address("Gdynia", "Poland", "Morska", 81);
 //        // creating test users
-        Date birthday = new Date(1, 2, 2000);
-        Driver dummyDriver = new Driver("driver_nick", "Tim", "Dunkey", birthday, "12345");
+        Driver dummyDriver = new Driver("driver_nick", "Tim", "Dunkey", "12345");
 //        Passenger dummyPassenger1 = new Passenger("passenger_nick", "John", "Jackson", birthday,
 //                                                false, false, Passenger.PreferredSeat.FRONT);
 //        Passenger dummyPassenger2 = new Passenger("passenger_nick_two", "Kate", "Mellow", birthday,

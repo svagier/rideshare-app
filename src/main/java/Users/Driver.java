@@ -2,7 +2,6 @@ package main.java.Users;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -36,11 +35,10 @@ public class Driver extends User {
      * @param name  username
      * @param first first name of the user
      * @param last  last name of the user
-     * @param birth date of birth of the user
      * @param ID    driver's licence ID
      */
-    public Driver(String name, String first, String last, Date birth, String ID){
-        super(name, first, last, birth);
+    public Driver(String name, String first, String last, String ID){
+        super(name, first, last);
         this.driversID = ID;
         this.rides = new ArrayList<Ride>();
     }
@@ -51,13 +49,12 @@ public class Driver extends User {
      * @param name  username
      * @param first first name of the user
      * @param last  last name of the user
-     * @param birth date of birth of the user
      * @param ID    driver's licence ID
      * @param carModel     the car model
      * @param licensePlate the license plate of the car
      */
-    public Driver(String name, String first, String last, Date birth, String ID, String carModel, String licensePlate){
-        super(name, first, last, birth);
+    public Driver(String name, String first, String last, String ID, String carModel, String licensePlate){
+        super(name, first, last);
         this.driversID = ID;
         this.defaultCarModel = carModel;
         this.defaultLicensePlate = licensePlate;
@@ -104,7 +101,7 @@ public class Driver extends User {
      */
     @Override
     public String toString() {
-         return getUsername() + ", " + getFirstName() + " " + getLastName() + ", born " + getDateOfBirth() + ", license: " + getDriversID();
+         return getUsername() + ", " + getFirstName() + " " + getLastName() + ", license: " + getDriversID();
     }
 
     /**

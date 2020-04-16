@@ -1,5 +1,6 @@
 package main.java.Users;
 
+import java.nio.file.FileAlreadyExistsException;
 import java.util.ArrayList;
 import java.io.*;
 import java.util.Date;
@@ -17,13 +18,13 @@ public class DriverHandler {
      * @param separator          the separator between columns of values
      * @return the boolean True if saved successfully, false if exception happened.
      */
-    public boolean saveDriversToTxt(ArrayList<Driver> listOfDrivers, String outputPathWithFile, boolean shouldAppend, char separator) {
+    public boolean saveDriversToTxt(ArrayList<Driver> listOfDrivers, String outputPathWithFile, boolean shouldAppend, String separator) {
         try {
             FileWriter writer = new FileWriter(outputPathWithFile, shouldAppend);
             for (int i=0; i < listOfDrivers.size(); i++)
                 writer.write(listOfDrivers.get(i).getUsername() + separator + listOfDrivers.get(i).getFirstName() +
-                        separator + listOfDrivers.get(i).getLastName() + separator + listOfDrivers.get(i).getDateOfBirth() +
-                        separator + listOfDrivers.get(i).getRidesCompleted() + separator + listOfDrivers.get(i).getDriversID() + "\r\n");
+                        separator + listOfDrivers.get(i).getLastName() + separator + listOfDrivers.get(i).getRidesCompleted() +
+                        separator + listOfDrivers.get(i).getDriversID() + "\r\n");
 
             writer.close();
             return true;
@@ -33,6 +34,31 @@ public class DriverHandler {
         }
     }
 
+    public ArrayList<Driver> loadDriversFromTxt(String inputPathWithFile, String separator) {
+        ArrayList<Driver> loadedListOfDrivers = new ArrayList<Driver>();
+        try {
+            FileReader fr = new FileReader(inputPathWithFile);
+            BufferedReader br = new BufferedReader(fr);
+            String line;
+
+            while((line=br.readLine())!=null)
+            {
+                System.out.println(line);
+                String splitLine[] = line.split(separator);
+                Driver newDriver = new Driver(splitLine[1], splitLine[2], splitLine[3], splitLine[4]);
+
+            }
+            fr.close();    //closes the stream and release the resources
+
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return null;
+
+    }
+
 
     /**
      * The entry point of application.
@@ -40,9 +66,8 @@ public class DriverHandler {
      * @param args the input arguments
      */
     public static void main(String[] args) {
-        Date birthday = new Date(1, 2, 2000);
-        Driver dummyDriver1 = new Driver("driver_nick", "Tim", "Dunkey", birthday, "12345");
-        Driver dummyDriver2 = new Driver("other_driver_nick", "Jim", "Carter", birthday, "54321");
+        Driver dummyDriver1 = new Driver("driver_nick", "Tim", "Dunkey", "12345");
+        Driver dummyDriver2 = new Driver("other_driver_nick", "Jim", "Carter", "54321");
 
         ArrayList<Driver> listOfDrivers = new ArrayList<Driver>();
         listOfDrivers.add(dummyDriver1);
@@ -50,7 +75,7 @@ public class DriverHandler {
 
 
         DriverHandler driverHandler = new DriverHandler();
-        driverHandler.saveDriversToTxt(listOfDrivers, "output_data\\out.txt", false, ';');
-
+        driverHandler.saveDriversToTxt(listOfDrivers, "output_data\\out.txt", false, ";");
+        driverHandler.loadDriversFromTxt("output_data\\out.txt",  ";");
     }
 }
