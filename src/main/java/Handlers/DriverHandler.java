@@ -8,7 +8,7 @@ import java.io.*;
 import static java.lang.Integer.parseInt;
 
 /**
- * The type Driver handler.
+ * The type Driver handler. Responsible for reading/writing lists of Drivers to and from files.
  */
 public class DriverHandler {
     /**
@@ -21,14 +21,16 @@ public class DriverHandler {
      * @return the boolean True if saved successfully, false if exception happened.
      */
     public boolean saveDriversToTxt(ArrayList<Driver> listOfDrivers, String outputPathWithFile, boolean shouldAppend, String separator) {
-        System.out.println("Attempting to save given list of Drivers to txt file.");
+        System.out.println("\nAttempting to save given list of Drivers to txt file.");
         try {
             FileWriter writer = new FileWriter(outputPathWithFile, shouldAppend);
             for (int i=0; i < listOfDrivers.size(); i++)
                 writer.write(driverToLine(listOfDrivers.get(i), separator));
             writer.close();
+            System.out.println("List of drivers saved to " + outputPathWithFile);
             return true;
         } catch (IOException e) {
+            System.out.println("Error: " + e);
             e.printStackTrace();
             return false;
         }
@@ -42,7 +44,7 @@ public class DriverHandler {
      * @return the array list of Drivers
      */
     public ArrayList<Driver> loadDriversFromTxt(String inputPathWithFile, String separator) {
-        System.out.println("Attempting to load a list of Drivers from the given txt file.");
+        System.out.println("\nAttempting to load a list of Drivers from the given txt file.");
         ArrayList<Driver> loadedListOfDrivers = new ArrayList<Driver>();
         try {
             FileReader fr = new FileReader(inputPathWithFile);
@@ -59,24 +61,39 @@ public class DriverHandler {
                     loadedListOfDrivers.add(newDriver);
                 } catch (java.lang.ArrayIndexOutOfBoundsException e) {
                     System.out.println("Error: " + e + " in line: " + line);
+                } catch (java.lang.NumberFormatException e){
+                    System.out.println("Error: " + e + " in line: " + line);
+                    System.out.println("Make sure you are parsing to int properly.\n");
+                } catch (Exception e) {
+                    System.out.println("Error: " + e + " in line: " + line);
                 }
             }
             fr.close();
             return loadedListOfDrivers;
 
         } catch (IOException e) {
+            System.out.println("Error: " + e);
             e.printStackTrace();
             return null;
         }
     }
 
+    /**
+     * Save drivers to binary boolean.
+     *
+     * @param listOfDrivers      the list of Drivers
+     * @param outputPathWithFile the output path with file, should have extensions included, like .dat
+     * @param separator          the separator
+     * @return the boolean True if saved successfully, false if exception happened.
+     */
     public boolean saveDriversToBinary(ArrayList<Driver> listOfDrivers, String outputPathWithFile, String separator) {
-        System.out.println("Attempting to save given list of Drivers to binary file.");
+        System.out.println("\nAttempting to save given list of Drivers to binary file.");
         try {
             FileOutputStream fos = new FileOutputStream(new File(outputPathWithFile));
             for (int i=0; i < listOfDrivers.size(); i++)
                 fos.write(driverToLine(listOfDrivers.get(i), separator).getBytes());
             fos.close();
+            System.out.println("List of drivers saved to " + outputPathWithFile);
             return true;
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -84,8 +101,14 @@ public class DriverHandler {
         }
     }
 
+    /**
+     * Load drivers from a specified binary file to an array list of Drivers.
+     *
+     * @param inputPathWithFile the input path with file and file extension, like .dat
+     * @return the array list of Drivers
+     */
     public ArrayList<Driver> loadDriversFromBinary(String inputPathWithFile) {
-        System.out.println("Attempting to load a list of Drivers from the given binary file.");
+        System.out.println("\nAttempting to load a list of Drivers from the given binary file.");
         ArrayList<Driver> loadedListOfDrivers = new ArrayList<Driver>();
         try {
             FileInputStream fis = new FileInputStream(new File(inputPathWithFile));
@@ -134,7 +157,12 @@ public class DriverHandler {
         return loadedListOfDrivers;
     }
 
-
+    /**
+     * Returns String (line) which will be appended to the file when exporting Drivers.
+     * @param driver Driver from which data is taken
+     * @param separator
+     * @return String which will become line in a file
+     */
     private String driverToLine(Driver driver, String separator) {
         return driver.getUsername() + separator + driver.getFirstName() +
                 separator + driver.getLastName() + separator + driver.getDriversID() +
@@ -142,11 +170,11 @@ public class DriverHandler {
     }
 
 
-        /**
-         * The entry point of application.
-         *
-         * @param args the input arguments
-         */
+    /**
+     * The entry point of application. Presents how writing/reading from txt and binary files works.
+     *
+     * @param args the input arguments
+     */
     public static void main(String[] args) {
         Driver dummyDriver1 = new Driver("driver_nick", "Tim", "Dunkey", "12345");
         Driver dummyDriver2 = new Driver("other_driver_nick", "Jim", "Carter", "54321");
@@ -156,22 +184,19 @@ public class DriverHandler {
         listOfDrivers.add(dummyDriver2);
 
         DriverHandler driverHandler = new DriverHandler();
-        ArrayList<Driver> listOfDriversFromBinary = new ArrayList<Driver>();
-        ArrayList<Driver> listOfDriversFromTxt = new ArrayList<Driver>();
+        ArrayList<Driver> listOfDriversFromBinary;
+        ArrayList<Driver> listOfDriversFromTxt;
 
         driverHandler.saveDriversToTxt(listOfDrivers, "output_data\\out.txt", false, ";");
         listOfDriversFromTxt = driverHandler.loadDriversFromTxt("output_data\\out.txt",  ";");
-        System.out.println("\nList of drivers loaded from txt file:");
+        System.out.println("List of drivers loaded from txt file:");
         for (int i=0; i<listOfDriversFromTxt.size(); i++)
             System.out.println(listOfDriversFromTxt.get(i));
-        System.out.println("\n");
 
         driverHandler.saveDriversToBinary(listOfDrivers, "output_data\\out.dat", ";");
         listOfDriversFromBinary = driverHandler.loadDriversFromBinary("output_data\\out.dat");
-        System.out.println("\nList of drivers loaded from binary file:");
+        System.out.println("List of drivers loaded from binary file:");
         for (int i=0; i<listOfDriversFromBinary.size(); i++)
             System.out.println(listOfDriversFromBinary.get(i));
-        System.out.println("\n");
-
     }
 }
