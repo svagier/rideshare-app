@@ -1,6 +1,5 @@
 package main.java.Users;
 
-import java.util.Date;
 
 
 /**
@@ -13,7 +12,6 @@ abstract class User {
     private String username;
     private String firstName;
     private String lastName;
-    private Date dateOfBirth;
     private int ridesCompleted = 0;
 
 
@@ -23,13 +21,11 @@ abstract class User {
      * @param name  username
      * @param first first name of the user
      * @param last  last name of the user
-     * @param birth date of birth of the user
      */
-    public User(String name, String first, String last, Date birth) {
+    public User(String name, String first, String last) {
         this.username = name;
         this.firstName = first;
         this.lastName = last;
-        this.dateOfBirth = birth;
     }
 
     /**
@@ -100,24 +96,6 @@ abstract class User {
      */
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    /**
-     * Gets date of birth.
-     *
-     * @return the date of birth
-     */
-    public Date getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    /**
-     * Sets date of birth.
-     *
-     * @param dateOfBirth the date of birth
-     */
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
     }
 
     /**

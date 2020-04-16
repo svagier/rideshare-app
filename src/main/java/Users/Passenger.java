@@ -1,5 +1,4 @@
 package main.java.Users;
-import java.util.Date;
 
 import main.java.Features.Ride;
 
@@ -37,10 +36,9 @@ public class Passenger extends User{
      * @param name  username
      * @param first first name of the user
      * @param last  last name of the user
-     * @param birth date of birth of the user
      */
-    public Passenger(String name, String first, String last, Date birth) {
-        super(name, first, last, birth);
+    public Passenger(String name, String first, String last) {
+        super(name, first, last);
         this.isSmoker = false;
         this.isTransportingPet = false;
         this.preferredSeat = PreferredSeat.ANY;
@@ -52,13 +50,12 @@ public class Passenger extends User{
      * @param name              username
      * @param first             first name of the user
      * @param last              last name of the user
-     * @param birth             date of birth of the user
      * @param isSmoker          the is smoker boolean
      * @param isTransportingPet the is transporting pet boolean
      * @param seat              preferences in seating in a car as passenger
      */
-    public Passenger(String name, String first, String last, Date birth, boolean isSmoker, boolean isTransportingPet, PreferredSeat seat) {
-        super(name, first, last, birth);
+    public Passenger(String name, String first, String last, boolean isSmoker, boolean isTransportingPet, PreferredSeat seat) {
+        super(name, first, last);
         this.isSmoker = isSmoker;
         this.isTransportingPet = isTransportingPet;
         this.preferredSeat = seat;

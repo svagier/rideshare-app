@@ -7,8 +7,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.Random;
 
 
@@ -43,7 +41,6 @@ public class DriverGenerator {
         ArrayList<Driver> listOfDrivers = new ArrayList<Driver>();
         Random rand = new Random();
 
-
         BufferedReader br = null;
         String line = "";
         String separator = ",";
@@ -57,14 +54,14 @@ public class DriverGenerator {
                 iterator++;
                 String[] data = line.split(separator);
 
-                // generating random date
-                int year = rand.nextInt((102 - 1) + 1);     // 1900 is added by default
-                int month = rand.nextInt((12 - 1) + 1) + 1;
-                int day = rand.nextInt((28 - 1) + 1) + 1;
-                Date birthday = new Date(year, month, day);
+//                // generating random date
+//                int year = rand.nextInt((102 - 1) + 1);     // 1900 is added by default
+//                int month = rand.nextInt((12 - 1) + 1) + 1;
+//                int day = rand.nextInt((28 - 1) + 1) + 1;
+//                Date birthday = new Date(year, month, day);
 
                 // adding newly created driver to the list
-                Driver newDriver = new Driver(data[0], data[1], data[2], birthday, data[4]);
+                Driver newDriver = new Driver(data[0], data[1], data[2], data[4]);
                 listOfDrivers.add(newDriver);
                 // adding photo to the Driver
                 // source of photos: http://vis-www.cs.umass.edu/lfw/

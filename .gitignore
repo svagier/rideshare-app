@@ -6,3 +6,4 @@ pom.xml
 src/main/java/META-INF/
 input_images/
 output_images/
+output_data/
