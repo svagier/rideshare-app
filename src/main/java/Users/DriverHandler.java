@@ -1,9 +1,7 @@
 package main.java.Users;
 
-import java.nio.file.FileAlreadyExistsException;
 import java.util.ArrayList;
 import java.io.*;
-import java.util.Date;
 
 import static java.lang.Integer.parseInt;
 
@@ -25,9 +23,8 @@ public class DriverHandler {
             FileWriter writer = new FileWriter(outputPathWithFile, shouldAppend);
             for (int i=0; i < listOfDrivers.size(); i++)
                 writer.write(listOfDrivers.get(i).getUsername() + separator + listOfDrivers.get(i).getFirstName() +
-                        separator + listOfDrivers.get(i).getLastName() + separator + listOfDrivers.get(i).getRidesCompleted() +
-                        separator + listOfDrivers.get(i).getDriversID() + "\r\n");
-
+                        separator + listOfDrivers.get(i).getLastName() + separator + listOfDrivers.get(i).getDriversID() +
+                        separator + listOfDrivers.get(i).getRidesCompleted() + "\r\n");
             writer.close();
             return true;
         } catch (IOException e) {
@@ -36,6 +33,13 @@ public class DriverHandler {
         }
     }
 
+    /**
+     * Load drivers from a specified txt file to an array list of Drivers.
+     *
+     * @param inputPathWithFile the input path with file
+     * @param separator         the separator
+     * @return the array list of Drivers
+     */
     public ArrayList<Driver> loadDriversFromTxt(String inputPathWithFile, String separator) {
         ArrayList<Driver> loadedListOfDrivers = new ArrayList<Driver>();
         try {
@@ -47,17 +51,21 @@ public class DriverHandler {
             {
                 System.out.println(line);
                 String splitLine[] = line.split(separator);
-                Driver newDriver = new Driver(splitLine[0], splitLine[1], splitLine[2], splitLine[3], parseInt(splitLine[4]
+                // we assume data is in the form as in saveDriversToTxt():
+                try {
+                    Driver newDriver = new Driver(splitLine[0], splitLine[1], splitLine[2], splitLine[3], parseInt(splitLine[4]));
+                    loadedListOfDrivers.add(newDriver);
+                } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+                    System.out.println("Error: " + e + " in line: " + line);
+                }
             }
-            fr.close();    //closes the stream and release the resources
-
+            fr.close();
+            return loadedListOfDrivers;
 
         } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
-        return null;
-
     }
 
 
@@ -74,9 +82,12 @@ public class DriverHandler {
         listOfDrivers.add(dummyDriver1);
         listOfDrivers.add(dummyDriver2);
 
-
         DriverHandler driverHandler = new DriverHandler();
         driverHandler.saveDriversToTxt(listOfDrivers, "output_data\\out.txt", false, ";");
-        driverHandler.loadDriversFromTxt("output_data\\out.txt",  ";");
+
+        ArrayList<Driver> loadedListOfDrivers = new ArrayList<Driver>();
+        loadedListOfDrivers = driverHandler.loadDriversFromTxt("output_data\\out.txt",  ";");
+        for (int i=0; i<loadedListOfDrivers.size(); i++)
+            System.out.println(loadedListOfDrivers.get(i));
     }
 }
