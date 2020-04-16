@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.io.*;
 import java.util.Date;
 
+import static java.lang.Integer.parseInt;
+
 /**
  * The type Driver handler.
  */
@@ -45,8 +47,7 @@ public class DriverHandler {
             {
                 System.out.println(line);
                 String splitLine[] = line.split(separator);
-                Driver newDriver = new Driver(splitLine[1], splitLine[2], splitLine[3], splitLine[4]);
-
+                Driver newDriver = new Driver(splitLine[0], splitLine[1], splitLine[2], splitLine[3], parseInt(splitLine[4]
             }
             fr.close();    //closes the stream and release the resources
 

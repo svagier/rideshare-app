@@ -32,6 +32,7 @@ public class Driver extends User {
     /**
      * Instantiates a new Driver.
      *
+     * gi
      * @param name  username
      * @param first first name of the user
      * @param last  last name of the user
@@ -41,6 +42,22 @@ public class Driver extends User {
         super(name, first, last);
         this.driversID = ID;
         this.rides = new ArrayList<Ride>();
+    }
+
+    /**
+     * Instantiates a new Driver with specified number of passengers transported (for creating Drivers from external files).
+     *
+     * @param name  username
+     * @param first first name of the user
+     * @param last  last name of the user
+     * @param ID    driver's licence ID
+     * @param passengersTransported number of passengers transported
+     */
+    public Driver(String name, String first, String last, String ID, int passengersTransported){
+        super(name, first, last);
+        this.driversID = ID;
+        this.rides = new ArrayList<Ride>();
+        this.passengersTransported = passengersTransported;
     }
 
     /**
