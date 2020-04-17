@@ -3,6 +3,7 @@ package main.java.Serializers;
 import main.java.Features.Address;
 
 import java.io.*;
+import java.nio.file.NoSuchFileException;
 import java.util.ArrayList;
 
 /**
@@ -39,13 +40,18 @@ public class AddressSerializer {
             file.close();
             System.out.println("Serialization has ended. The list has been saved to " + outputPathWithFile);
             return true;
-        } catch (IOException e) {
+        } catch (FileNotFoundException e) {
+            System.out.println("The file at path " + outputPathWithFile + " has not been found. " +
+                    "Make sure that the path, filename and extension are correct. Create new directories/files if necessary. Exiting.");
+            return false;
+        }
+        catch (IOException e) {
             System.out.println("IOException has been caught.");
             e.printStackTrace();
             return false;
         }
         catch (Exception e) {
-            System.out.println("Exception has been caught.");
+            System.out.println("Exception happened: " + e);
             e.printStackTrace();
             return false;
         }
@@ -85,17 +91,20 @@ public class AddressSerializer {
             inputStream.close();
             file.close();
             return loadedListOfAddresses;
+        } catch (FileNotFoundException e) {
+            System.out.println("The file at path " + inputPathWithFile + " has not been found. " +
+                    "Make sure that the path, filename and extension are correct. Create new directories/files if necessary. Exiting.");
+            return loadedListOfAddresses;
         }
-
         catch (IOException e) {
             System.out.println("IOException has been caught.");
             e.printStackTrace();
-            return null;
+            return loadedListOfAddresses;
         }
         catch (Exception e) {
-            System.out.println("Exception has been caught.");
+            System.out.println("Exception happened: " + e);
             e.printStackTrace();
-            return null;
+            return loadedListOfAddresses;
         }
     }
 }

@@ -190,12 +190,16 @@ public class Address implements Cloneable, Serializable {
         for (int i=0; i<listOfAddresses.size(); i++)
             System.out.println(listOfAddresses.get(i));
 
-        AddressSerializer addressSerializer = new AddressSerializer();
-        addressSerializer.serializeToFile(listOfAddresses, "output_data\\addresses.ser");
+        String serializationPathWithFile = "output_data\\addresses.ser";
 
-        ArrayList<Address> deserializedListOfAddresses = addressSerializer.deserializeFromFile("output_data\\addresses.ser");
-        System.out.println("Deserialized list of Addresses from the file:");
-        for (int i=0; i<deserializedListOfAddresses.size(); i++)
-            System.out.println(deserializedListOfAddresses.get(i));
+        AddressSerializer addressSerializer = new AddressSerializer();
+        addressSerializer.serializeToFile(listOfAddresses, serializationPathWithFile);
+
+        ArrayList<Address> deserializedListOfAddresses = addressSerializer.deserializeFromFile(serializationPathWithFile);
+        if (deserializedListOfAddresses.size() > 0) {
+            System.out.println("Deserialized list of Addresses from the file:");
+            for (int i=0; i<deserializedListOfAddresses.size(); i++)
+                System.out.println(deserializedListOfAddresses.get(i));
+        }
     }
 }
