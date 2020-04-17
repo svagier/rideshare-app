@@ -2,6 +2,10 @@ package main.java.Handlers;
 
 import main.java.Users.Driver;
 
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.channels.FileLock;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.io.*;
 
@@ -112,7 +116,7 @@ public class DriverHandler {
      */
     public ArrayList<Driver> loadDriversFromBinary(String inputPathWithFile) {
         System.out.println("\nAttempting to load a list of Drivers from the given binary file.");
-        ArrayList<Driver> loadedListOfDrivers = new ArrayList<Driver>();
+        ArrayList<Driver> loadedListOfDrivers = new ArrayList<>();
         try {
             FileInputStream fis = new FileInputStream(new File(inputPathWithFile));
             int ch;
@@ -145,6 +149,7 @@ public class DriverHandler {
                             System.out.println("Make sure you are parsing to int properly.\n");
                         } catch (Exception e) {
                             System.out.println("Error: " + e + " in line for user: " + arr[0]);
+                            e.printStackTrace();
                         }
                     }
                     iter = 0;                   // iter is 0 again, because we are starting new line with word (column) number 0
@@ -159,6 +164,42 @@ public class DriverHandler {
         }
         return loadedListOfDrivers;
     }
+
+
+    public ArrayList<Driver> loadDriversFromBinaryLocked(String inputPathWithFile, String separator) {
+        ArrayList<Driver> loadedListOfDrivers = new ArrayList<>();
+        try {
+            RandomAccessFile file = new RandomAccessFile(inputPathWithFile, "rw");
+            FileChannel channel = file.getChannel();
+            FileLock lock = channel.lock();
+            ByteBuffer buff = ByteBuffer.allocate(1024);
+            channel.read(buff);
+            String fileContent = new String(buff.array(), StandardCharsets.UTF_8);
+            String allLines[] = fileContent.split("\n");
+
+            for (int i=0; i < allLines.length - 1; i++) {       // length-1 because last line is empty
+                try {
+                    String splitLine[] = allLines[i].split(separator);
+                    Driver newDriver = new Driver(splitLine[0], splitLine[1], splitLine[2], splitLine[3], parseInt(splitLine[4]));
+                    loadedListOfDrivers.add(newDriver); // create new Driver with loaded data and add it to the list
+
+                } catch (java.lang.ArrayIndexOutOfBoundsException e) {
+                    System.out.println("Error: " + e + " in line " + i);
+                    System.out.println("Make sure the given line contains 5 columns.\n");
+                }
+                catch (Exception e) {
+                    System.out.println("Error: " + e + " in line " + i);
+                    e.printStackTrace();
+                }
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return loadedListOfDrivers;
+    }
+
 
     /**
      * Returns String (line) which will be appended to the file when exporting Drivers.
@@ -179,8 +220,8 @@ public class DriverHandler {
      * @param args the input arguments
      */
     public static void main(String[] args) {
-        Driver dummyDriver1 = new Driver("driver_nick", "Tim", "Dunkey", "12345");
-        Driver dummyDriver2 = new Driver("other_driver_nick", "Jim", "Carter", "54321");
+        Driver dummyDriver1 = new Driver("driver_nick", "Tim", "Dunkey", "123456");
+        Driver dummyDriver2 = new Driver("other_driver_nick", "Jim", "Carter", "654321");
 
         ArrayList<Driver> listOfDrivers = new ArrayList<Driver>();
         listOfDrivers.add(dummyDriver1);
@@ -188,18 +229,28 @@ public class DriverHandler {
 
         DriverHandler driverHandler = new DriverHandler();
         ArrayList<Driver> listOfDriversFromBinary;
+        ArrayList<Driver> listOfDriversFromBinaryLocked;
         ArrayList<Driver> listOfDriversFromTxt;
 
-        driverHandler.saveDriversToTxt(listOfDrivers, "output_data\\out.txt", false, ";");
-        listOfDriversFromTxt = driverHandler.loadDriversFromTxt("output_data\\out.txt",  ";");
-        System.out.println("List of drivers loaded from txt file:");
-        for (int i=0; i<listOfDriversFromTxt.size(); i++)
-            System.out.println(listOfDriversFromTxt.get(i));
+        String separator = ";";
 
-        driverHandler.saveDriversToBinary(listOfDrivers, "output_data\\out.dat", ";");
-        listOfDriversFromBinary = driverHandler.loadDriversFromBinary("output_data\\out.dat");
-        System.out.println("List of drivers loaded from binary file:");
-        for (int i=0; i<listOfDriversFromBinary.size(); i++)
-            System.out.println(listOfDriversFromBinary.get(i));
+//        driverHandler.saveDriversToTxt(listOfDrivers, "output_data\\out.txt", false, separator);
+//        listOfDriversFromTxt = driverHandler.loadDriversFromTxt("output_data\\out.txt",  separator);
+//        System.out.println("List of drivers loaded from txt file:");
+//        for (int i=0; i<listOfDriversFromTxt.size(); i++)
+//            System.out.println(listOfDriversFromTxt.get(i));
+
+//        driverHandler.saveDriversToBinary(listOfDrivers, "output_data\\out.dat", ";");
+//        listOfDriversFromBinary = driverHandler.loadDriversFromBinary("output_data\\out.dat");
+//        System.out.println("List of drivers loaded from binary file:");
+//        for (int i=0; i<listOfDriversFromBinary.size(); i++)
+//            System.out.println(listOfDriversFromBinary.get(i));
+
+        listOfDriversFromBinaryLocked = driverHandler.loadDriversFromBinaryLocked("output_data\\out.dat", separator);
+        System.out.println("List of drivers loaded from binary file with locking:");
+        for (int i=0; i<listOfDriversFromBinaryLocked.size(); i++)
+            System.out.println(listOfDriversFromBinaryLocked.get(i).getUsername());
+//        System.out.println(listOfDriversFromBinaryLocked.get(1).getDriversID());
+
     }
 }
