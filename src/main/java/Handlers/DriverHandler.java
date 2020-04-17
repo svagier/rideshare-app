@@ -24,16 +24,24 @@ import static java.nio.channels.Channels.newOutputStream;
  * @since 1.4
  */
 public class DriverHandler {
-    private int sleepDelay = 5000;        // default, in ms
+    private int sleepDelay;     // in milliseconds
 
     /**
-     * Instantiates a new Driver handler, with specified sleep delay values .
+     * Instantiates a new Driver handler, without specifying sleep delay value, so default value is used.
+     */
+    public DriverHandler() {
+        this.sleepDelay = 5000;     // default value, in milliseconds
+    }
+
+    /**
+     * Instantiates a new Driver handler, with specified sleep delay values.
      *
      * @param sleepDelay the sleep delay (in milliseconds)
      */
     public DriverHandler(int sleepDelay) {
         this.sleepDelay = sleepDelay;
     }
+
 
     /**
      * Save Drivers from the list of Drivers to .txt file.
@@ -392,55 +400,74 @@ public class DriverHandler {
      * @param args the input arguments
      */
     public static void main(String[] args) {
-//        int numberOfDrivers = 50;
-//        DriverGenerator driverGenerator = new DriverGenerator(numberOfDrivers);
-//        String pathToCsv = "input_data/drivers.csv";
-//        String imagesInputPath = "input_images/";
-//        String imageFormat = "jpg";
-//        ArrayList<Driver> listOfDrivers = driverGenerator.generateDrivers(pathToCsv, imagesInputPath, imageFormat);
+        /**
+         * below we create a list of 3 exemplary Drivers.
+         * We will use the list of Drivers for further testing of reading/saving files with and without locks.
+         */
+        Driver dummyDriver1 = new Driver("driver_nick", "Tim", "Dunkey", "12345");
+        Driver dummyDriver2 = new Driver("other_driver_nick", "Jim", "Carter", "54321");
+        Driver dummyDriver3 = new Driver("third_nick", "Jenna", "Kowalsky", "55555");
 
-        Driver dummyDriver1 = new Driver("driver_nick", "Tim", "Dunkey", "123456");
-        Driver dummyDriver2 = new Driver("other_driver_nick", "Jim", "Carter", "654321");
-
-         ArrayList<Driver> listOfDrivers = new ArrayList<Driver>();
+        ArrayList<Driver> listOfDrivers = new ArrayList<Driver>();
         listOfDrivers.add(dummyDriver1);
         listOfDrivers.add(dummyDriver2);
+        listOfDrivers.add(dummyDriver3);
 
+
+        /**
+         * create new object of class DriverHandler, which will be responsible for reading/saving files.
+         * Note: default artificial sleep time for each reading/saving time is 5000 ms.
+         *      To change that, pass a desired time to the DriverHandler constructor.
+         *      The delay is given so that the locking mechanism is easier to notice.
+         */
         DriverHandler driverHandler = new DriverHandler();
-        ArrayList<Driver> listOfDriversFromBinary;
+
         ArrayList<Driver> listOfDriversFromBinaryLocked;
-        ArrayList<Driver> listOfDriversFromTxt;
         ArrayList<Driver> listOfDriversFromTxtLocked;
+        ArrayList<Driver> listOfDriversFromBinary;          // to use this, block at the bottom has to be uncommented
+        ArrayList<Driver> listOfDriversFromTxt;             // to use this, block at the bottom has to be uncommented
         String separator = ";";
 
-//        driverHandler.saveDriversToTxt(listOfDrivers, "output_data\\out.txt", false, separator);
-//        listOfDriversFromTxt = driverHandler.loadDriversFromTxt("output_data\\out.txt",  separator);
-//        System.out.println("List of drivers loaded from txt file:");
-//        for (int i=0; i<listOfDriversFromTxt.size(); i++)
-//            System.out.println(listOfDriversFromTxt.get(i));
 
-//        driverHandler.saveDriversToBinary(listOfDrivers, "output_data\\out.dat", ";");
-//        listOfDriversFromBinary = driverHandler.loadDriversFromBinary("output_data\\out.dat");
-//        System.out.println("List of drivers loaded from binary file:");
-//        for (int i=0; i<listOfDriversFromBinary.size(); i++)
-//            System.out.println(listOfDriversFromBinary.get(i));
-
-//        driverHandler.saveDriversToBinaryLocked(listOfDrivers, "output_data\\out.dat", ";");
-//        driverHandler.saveDriversToTxtLocked(listOfDrivers, "output_data\\out.txt", separator);
-//        listOfDriversFromBinaryLocked = driverHandler.loadDriversFromBinaryLocked("output_data\\out.dat", separator, 1024);
-
+        /**
+         * Below is presented how reading/saving txt/binary files works with locking
+         */
+        driverHandler.saveDriversToBinaryLocked(listOfDrivers, "output_data\\out.dat", ";");
+        driverHandler.saveDriversToTxtLocked(listOfDrivers, "output_data\\out.txt", separator);
+        listOfDriversFromBinaryLocked = driverHandler.loadDriversFromBinaryLocked("output_data\\out.dat", separator, 1024);
         listOfDriversFromTxtLocked = driverHandler.loadDriversFromTxtLocked("output_data\\out.txt", separator);
+
         if (listOfDriversFromTxtLocked.size() > 0) {
-            System.out.println("List of drivers loaded from txt file locked:");
+            System.out.println("\nList of drivers loaded from txt file locked:");
             for (int i=0; i<listOfDriversFromTxtLocked.size(); i++)
                 System.out.println(listOfDriversFromTxtLocked.get(i));
         }
 
+        if (listOfDriversFromBinaryLocked.size() > 0) {
+            System.out.println("\nList of drivers loaded from binary file with locking:");
+            for (int i=0; i<listOfDriversFromBinaryLocked.size(); i++)
+                System.out.println(listOfDriversFromBinaryLocked.get(i));
+        }
 
-//        if (listOfDriversFromBinaryLocked.size() > 0) {
-//            System.out.println("List of drivers loaded from binary file with locking:");
-//            for (int i=0; i<listOfDriversFromBinaryLocked.size(); i++)
-//                System.out.println(listOfDriversFromBinaryLocked.get(i));
+
+
+        /**
+         * below commented out is the example of how reading/saving txt/binary files works WITHOUT locking
+         */
+//        driverHandler.saveDriversToTxt(listOfDrivers, "output_data\\out.txt", false, separator);
+//        listOfDriversFromTxt = driverHandler.loadDriversFromTxt("output_data\\out.txt",  separator);
+//        if (listOfDriversFromTxt.size() > 0) {
+//            System.out.println("List of drivers loaded from txt file:");
+//            for (int i=0; i<listOfDriversFromTxt.size(); i++)
+//                System.out.println(listOfDriversFromTxt.get(i));
+//        }
+//
+//        driverHandler.saveDriversToBinary(listOfDrivers, "output_data\\out.dat", ";");
+//        listOfDriversFromBinary = driverHandler.loadDriversFromBinary("output_data\\out.dat");
+//        System.out.println("List of drivers loaded from binary file:");
+//        if (listOfDriversFromBinary.size() > 0) {
+//            for (int i=0; i<listOfDriversFromBinary.size(); i++)
+//            System.out.println(listOfDriversFromBinary.get(i));
 //        }
 
     }
