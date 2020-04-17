@@ -206,7 +206,7 @@ public class DriverHandler {
             OutputStream out = newOutputStream(channel);
             FileLock lock = channel.tryLock();
             if (lock != null) {
-                System.out.println("The file is not locked. Attempting to process the file and save the Drivers to it...");
+                System.out.println("The file was not locked. Locked it and now attempting to process the file and save the Drivers to it...");
                 PrintWriter writer = new PrintWriter(out);
                 for (int i=0; i < listOfDrivers.size(); i++) {
                     sleep(this.getSleepDelay());
@@ -244,7 +244,7 @@ public class DriverHandler {
             BufferedReader br = new BufferedReader(Channels.newReader(channel, "UTF-8"));
             FileLock lock = channel.tryLock();
             if (lock != null) {
-                System.out.println("The file is not locked. Attempting to process the file and create the list...");
+                System.out.println("The file was not locked. Locked it and now attempting to process the file and create the list...");
                 String line;
                 while ((line = br.readLine()) != null) {
                     try {
@@ -291,7 +291,7 @@ public class DriverHandler {
             FileChannel channel = file.getChannel();
             FileLock lock = channel.tryLock();
             if (lock != null) {
-                System.out.println("The file is not locked. Attempting to process the file and save the Drivers to it...");
+                System.out.println("The file was not locked. Locked it and now attempting to process the file and save the Drivers to it...");
                 for (int i=0; i < listOfDrivers.size(); i++){
                     sleep(this.getSleepDelay());
                     ByteBuffer buff = ByteBuffer.wrap(driverToLine(listOfDrivers.get(i), separator).getBytes(StandardCharsets.UTF_8));
@@ -328,7 +328,7 @@ public class DriverHandler {
             FileChannel channel = file.getChannel();
             FileLock lock = channel.tryLock();
             if (lock != null) {
-                System.out.println("The file is not locked. Attempting to process the file and create the list...");
+                System.out.println("The file was not locked. Locked it and now attempting to process the file and create the list...");
                 ByteBuffer buff = ByteBuffer.allocate(bufferSize);
                 channel.read(buff);
                 String fileContent = new String(buff.array(), StandardCharsets.UTF_8);
@@ -406,12 +406,12 @@ public class DriverHandler {
          */
         Driver dummyDriver1 = new Driver("driver_nick", "Tim", "Dunkey", "12345");
         Driver dummyDriver2 = new Driver("other_driver_nick", "Jim", "Carter", "54321");
-        Driver dummyDriver3 = new Driver("third_nick", "Jenna", "Kowalsky", "55555");
+//        Driver dummyDriver3 = new Driver("third_nick", "Jenna", "Kowalsky", "55555");
 
         ArrayList<Driver> listOfDrivers = new ArrayList<Driver>();
         listOfDrivers.add(dummyDriver1);
         listOfDrivers.add(dummyDriver2);
-        listOfDrivers.add(dummyDriver3);
+//        listOfDrivers.add(dummyDriver3);
 
 
         /**
@@ -431,6 +431,9 @@ public class DriverHandler {
 
         /**
          * Below is presented how reading/saving txt/binary files works with locking
+         * IMPORTANT: to present that the locking really works, a second process of the DriverHandler main()
+         *            has to be started withing 5s (or custom set sleep value) of starting this one.
+         *            Then both DriverHandler main()s will want to access the same files at the same time.
          */
         driverHandler.saveDriversToBinaryLocked(listOfDrivers, "output_data\\out.dat", ";");
         driverHandler.saveDriversToTxtLocked(listOfDrivers, "output_data\\out.txt", separator);
@@ -438,7 +441,7 @@ public class DriverHandler {
         listOfDriversFromTxtLocked = driverHandler.loadDriversFromTxtLocked("output_data\\out.txt", separator);
 
         if (listOfDriversFromTxtLocked.size() > 0) {
-            System.out.println("\nList of drivers loaded from txt file locked:");
+            System.out.println("\nList of drivers loaded from txt file with locking:");
             for (int i=0; i<listOfDriversFromTxtLocked.size(); i++)
                 System.out.println(listOfDriversFromTxtLocked.get(i));
         }
