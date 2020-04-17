@@ -50,38 +50,6 @@ public class Address implements Cloneable, Serializable {
         this.buildingNumber = buildingNumber;
     }
 
-    /**
-     * The entry point of application.
-     *
-     * @param args the input arguments
-     */
-    public static void main(String[] args) {
-
-        /**
-         * Presenting how serialization and deserialization works.
-         */
-        // creating test addresses
-        Address gdansk = new Address("Gdansk", "Poland", "Gabriela Narutowicza", 11);
-        Address gdynia = new Address("Gdynia", "Poland", "Morska", 81);
-        Address sopot = new Address("Sopot", "Pomorska", 5);
-
-        ArrayList<Address> listOfAddresses = new ArrayList<Address>();
-        listOfAddresses.add(gdansk);
-        listOfAddresses.add(gdynia);
-        listOfAddresses.add(sopot);
-
-        System.out.println("List of addresses:");
-        for (int i=0; i<listOfAddresses.size(); i++)
-            System.out.println(listOfAddresses.get(i));
-
-        AddressSerializer addressSerializer = new AddressSerializer();
-        addressSerializer.serializeToFile(listOfAddresses, "output_data\\addresses.ser");
-
-        ArrayList<Address> deserializedListOfAddresses = addressSerializer.deserializeFromFile("output_data\\addresses.ser");
-        System.out.println("Deserialized list of Addresses from the file:");
-        for (int i=0; i<deserializedListOfAddresses.size(); i++)
-            System.out.println(deserializedListOfAddresses.get(i));
-    }
 
 
     /**
@@ -198,4 +166,36 @@ public class Address implements Cloneable, Serializable {
         this.buildingNumber = buildingNumber;
     }
 
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     */
+    public static void main(String[] args) {
+
+        /**
+         * Presenting how serialization and deserialization works.
+         */
+        // creating test addresses
+        Address gdansk = new Address("Gdansk", "Poland", "Gabriela Narutowicza", 11);
+        Address gdynia = new Address("Gdynia", "Poland", "Morska", 81);
+        Address sopot = new Address("Sopot", "Pomorska", 5);
+
+        ArrayList<Address> listOfAddresses = new ArrayList<Address>();
+        listOfAddresses.add(gdansk);
+        listOfAddresses.add(gdynia);
+        listOfAddresses.add(sopot);
+
+        System.out.println("List of addresses:");
+        for (int i=0; i<listOfAddresses.size(); i++)
+            System.out.println(listOfAddresses.get(i));
+
+        AddressSerializer addressSerializer = new AddressSerializer();
+        addressSerializer.serializeToFile(listOfAddresses, "output_data\\addresses.ser");
+
+        ArrayList<Address> deserializedListOfAddresses = addressSerializer.deserializeFromFile("output_data\\addresses.ser");
+        System.out.println("Deserialized list of Addresses from the file:");
+        for (int i=0; i<deserializedListOfAddresses.size(); i++)
+            System.out.println(deserializedListOfAddresses.get(i));
+    }
 }
