@@ -1,10 +1,9 @@
 package main.java.Features;
 
-import main.java.Users.Driver;
+import main.java.Serializers.AddressSerializer;
 
-import java.time.LocalDateTime;
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 
 /**
  * Address class to specify destination and origin of rides
@@ -14,7 +13,7 @@ import java.util.Collections;
  * @version 1.0
  * @since 1.0
  */
-public class Address implements Cloneable {
+public class Address implements Cloneable, Serializable {
     private String city;
     private String country;
     private String street;
@@ -28,7 +27,7 @@ public class Address implements Cloneable {
      * @param street         the street
      * @param buildingNumber the building number on the given street
      */
-    public Address(String city, String street, int buildingNumber){
+    public Address(String city, String street, int buildingNumber) {
         this.city = city;
         this.country = "Poland";
         this.street = street;
@@ -44,7 +43,7 @@ public class Address implements Cloneable {
      * @param street         the street name
      * @param buildingNumber the building number on the given street
      */
-    public Address(String city, String country, String street, int buildingNumber){
+    public Address(String city, String country, String street, int buildingNumber) {
         this.city = city;
         this.country = country;
         this.street = street;
@@ -59,97 +58,29 @@ public class Address implements Cloneable {
     public static void main(String[] args) {
 
         /**
-         * below: exemplary code from previous labs, showing how basics of the app work
+         * Presenting how serialization and deserialization works.
          */
-                // creating test addresses
+        // creating test addresses
         Address gdansk = new Address("Gdansk", "Poland", "Gabriela Narutowicza", 11);
         Address gdynia = new Address("Gdynia", "Poland", "Morska", 81);
-//        // creating test users
-        Driver dummyDriver = new Driver("driver_nick", "Tim", "Dunkey", "12345");
-//        Passenger dummyPassenger1 = new Passenger("passenger_nick", "John", "Jackson", birthday,
-//                                                false, false, Passenger.PreferredSeat.FRONT);
-//        Passenger dummyPassenger2 = new Passenger("passenger_nick_two", "Kate", "Mellow", birthday,
-//                                            true, false, Passenger.PreferredSeat.BACK_ANY_SIDE);
-//
-//        // print statistics of users before the ride
-//        System.out.println("\nSTATS BEFORE RIDE:");
-//        dummyDriver.printStats();
-//        dummyPassenger1.printStats();
-//        dummyPassenger2.printStats();
-//
-//        // create test ride:
-//        Ride firstRide = dummyDriver.createRide(gdansk, gdynia, "Fiat 126p", "GD1337", 1,3, false, LocalDateTime.now());
-//        // both passengers join the ride:
-//        dummyPassenger1.joinRide(firstRide);
-//        dummyPassenger2.joinRide(firstRide);
-//        // second passenger decides not to take part in the ride:
-//        dummyPassenger2.cancelRide(firstRide);
-//        firstRide.startRide();
-//        firstRide.finishRide();
-//
-//        // print statistics of users after the ride
-//        System.out.println("\nSTATS AFTER RIDE:");
-//        dummyDriver.printStats();
-//        dummyPassenger1.printStats();
-//        dummyPassenger2.printStats();
-
-
-
-        //testing deep cloning:
-        /**
-         * below: functionalities from Lab2 presented:
-         */
-        System.out.println("\n\nTesting deep cloning of Route");
         Address sopot = new Address("Sopot", "Pomorska", 5);
-        Route routeA = new Route(gdansk, gdynia, 12, false);
-        System.out.println("routeA: " + routeA);
-        System.out.println("Creating routeB, which is a clone of routeA");
-        Route routeB = (Route) routeA.clone();
-        System.out.println("routeA: " + routeA);
-        System.out.println("routeB: " + routeB);
-        System.out.println("Changing start Address and distance in routeB.");
-        routeB.setStart(sopot);
-        routeB.setDistance(3);
-        System.out.println("Display both routes after the change to routeB. RouteA is not affected:");
-        System.out.println("routeA: " + routeA);
-        System.out.println("routeB: " + routeB);
 
-        //testing Comparable interface
-        System.out.println("\n\nTesting Comparable interface in Route and using sorting.");
-        Route routeC = new Route(gdansk, sopot, 4, false);
-        System.out.println("routeA distance: " + routeA.getDistance());
-        System.out.println("routeB distance: " + routeB.getDistance());
-        System.out.println("routeC distance: " + routeC.getDistance());
-        ArrayList<Route> routes = new ArrayList<>();
-        routes.add(routeA);
-        routes.add(routeB);
-        routes.add(routeC);
-        System.out.println("Unsorted (distance of Route):");
-        for (int i=0; i<routes.size(); i++)
-            System.out.println(routes.get(i).getDistance());
-        Collections.sort(routes);
-        System.out.println("Sorted (distance of Route):");
-        for (int i=0; i<routes.size(); i++)
-            System.out.println(routes.get(i).getDistance());
+        ArrayList<Address> listOfAddresses = new ArrayList<Address>();
+        listOfAddresses.add(gdansk);
+        listOfAddresses.add(gdynia);
+        listOfAddresses.add(sopot);
 
+        System.out.println("List of addresses:");
+        for (int i=0; i<listOfAddresses.size(); i++)
+            System.out.println(listOfAddresses.get(i));
 
-        //testing Comparator
-        System.out.println("\n\nTesting Comparator - RidePriceComparator - and sorting. List with 3 Rides with various prices per passenger is created.");
-        ArrayList<Ride> ridesArr = new ArrayList<Ride>();
-        Ride mostExpensiveRide = dummyDriver.createRide(gdynia, gdansk, "Ford Focus", "GDA1111", 3,2, false, LocalDateTime.now());
-        Ride leastExpensiveRide = dummyDriver.createRide(sopot, gdansk, "Fiat 126p", "GD3437", 1.5,4, true, LocalDateTime.now());
-        Ride moreExpensiveRide = dummyDriver.createRide(gdansk, sopot, "Fiat 125p", "GD3337", 2,1, true, LocalDateTime.now());
+        AddressSerializer addressSerializer = new AddressSerializer();
+        addressSerializer.serializeToFile(listOfAddresses, "output_data\\addresses.ser");
 
-        ridesArr.add(moreExpensiveRide);
-        ridesArr.add(mostExpensiveRide);
-        ridesArr.add(leastExpensiveRide);
-        System.out.println("Unsorted (values of pricePerPassenger):");
-        for (int i=0; i<ridesArr.size(); i++)
-            System.out.println(ridesArr.get(i).getPricePerPassenger());
-        Collections.sort(ridesArr, new RidePriceComparator());
-        System.out.println("Sorted (values of pricePerPassenger):");
-        for (int i=0; i<ridesArr.size(); i++)
-            System.out.println(ridesArr.get(i).getPricePerPassenger());
+        ArrayList<Address> deserializedListOfAddresses = addressSerializer.deserializeFromFile("output_data\\addresses.ser");
+        System.out.println("Deserialized list of Addresses from the file:");
+        for (int i=0; i<deserializedListOfAddresses.size(); i++)
+            System.out.println(deserializedListOfAddresses.get(i));
     }
 
 
@@ -179,6 +110,7 @@ public class Address implements Cloneable {
         }
     }
 
+
     /**
      * Is abroad boolean.
      *
@@ -186,7 +118,7 @@ public class Address implements Cloneable {
      */
     public boolean isAbroad() {
         // returns true if country is different than Poland. Poland here is considered as homecountry
-        if (this.country == "Poland") {
+        if (this.getCountry().equals("Poland")) {
             return (false);
         }
         else {
