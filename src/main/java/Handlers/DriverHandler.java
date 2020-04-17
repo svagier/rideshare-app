@@ -1,6 +1,5 @@
 package main.java.Handlers;
 
-import main.java.Generators.DriverGenerator;
 import main.java.Users.Driver;
 
 import java.nio.ByteBuffer;
@@ -328,7 +327,18 @@ public class DriverHandler {
                 channel.close();
                 return false;
             }
-        } catch (Exception e) {
+        } catch (FileNotFoundException e) {
+            System.out.println("The file at path " + outputPathWithFile + " has not been found. " +
+                    "Make sure that the path, filename and extension are correct. Create new directories/files if necessary. Exiting.");
+            return false;
+        }
+        catch (NoSuchFileException e) {
+            System.out.println("The file at path " + outputPathWithFile + " has not been found. " +
+                    "Make sure that the path, filename and extension are correct. Create new directories/files if necessary. Exiting.");
+            return false;
+        }
+        catch (Exception e) {
+            System.out.println("Exception happened: " + e);
             e.printStackTrace();
             return false;
         }
@@ -378,9 +388,20 @@ public class DriverHandler {
                 System.out.println("The file " + inputPathWithFile + " is locked by another process. Exiting.\n");
                 channel.close();
             }
-        } catch (Exception e) {
+        } catch (FileNotFoundException e) {
+            System.out.println("The file at path " + inputPathWithFile + " has not been found. " +
+                    "Make sure that the path, filename and extension are correct. Create new directories/files if necessary. Exiting.");
+            return loadedListOfDrivers;
+        }
+        catch (NoSuchFileException e) {
+            System.out.println("The file at path " + inputPathWithFile + " has not been found. " +
+                    "Make sure that the path, filename and extension are correct. Create new directories/files if necessary. Exiting.");
+            return loadedListOfDrivers;
+        }
+        catch (Exception e) {
+            System.out.println("Exception happened: " + e);
             e.printStackTrace();
-            return null;
+            return loadedListOfDrivers;
         }
         return loadedListOfDrivers;
     }
@@ -458,7 +479,7 @@ public class DriverHandler {
          *            Then both DriverHandler main()s will want to access the same files at the same time.
          */
         String binaryPathWithFile = "output_data\\out.dat";
-        String txrPathWithFile = "soutput_data\\out.txt";
+        String txrPathWithFile = "output_data\\out.txt";
         driverHandler.saveDriversToBinaryLocked(listOfDrivers, binaryPathWithFile, ";");
         driverHandler.saveDriversToTxtLocked(listOfDrivers, txrPathWithFile, separator);
         listOfDriversFromBinaryLocked = driverHandler.loadDriversFromBinaryLocked(binaryPathWithFile, separator, 1024);
