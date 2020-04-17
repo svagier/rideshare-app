@@ -7,11 +7,13 @@ import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.io.*;
 
 import static java.lang.Integer.parseInt;
 import static java.lang.Thread.sleep;
+import static java.nio.channels.Channels.newOutputStream;
 
 /**
  * The type Driver handler. Responsible for reading/writing lists of Drivers to and from files.
@@ -167,6 +169,38 @@ public class DriverHandler {
         return loadedListOfDrivers;
     }
 
+    public boolean saveDriversToTxtLocked(ArrayList<Driver> listOfDrivers, String outputPathWithFile, String separator) {
+        System.out.println("\nAttempting to save given list of Drivers to txt file with lock.");
+        try {
+            File outputFile = new File(outputPathWithFile);
+            FileChannel channel = FileChannel.open((outputFile).toPath(), StandardOpenOption.CREATE, StandardOpenOption.WRITE);
+            OutputStream out = newOutputStream(channel);
+            FileLock lock = channel.tryLock();
+            if (lock != null) {
+                System.out.println("The file is not locked. Attempting to process the file and save the Drivers to it...");
+                PrintWriter writer = new PrintWriter(out);
+
+                for (int i=0; i < listOfDrivers.size(); i++) {
+                    sleep(10000);
+                    writer.print(driverToLine(listOfDrivers.get(i), separator));
+                }
+                System.out.println("List of drivers saved to " + outputPathWithFile);
+                writer.close();
+                channel.close();
+                return true;
+            }
+            else {
+                System.out.println("The file " + outputPathWithFile + " is locked by another process. Exiting.\n");
+                channel.close();
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
     public boolean saveDriversToBinaryLocked(ArrayList<Driver> listOfDrivers, String outputPathWithFile, String separator) {
         System.out.println("\nAttempting to save given list of Drivers to binary file with lock.");
         try {
@@ -291,8 +325,8 @@ public class DriverHandler {
 //        for (int i=0; i<listOfDriversFromBinary.size(); i++)
 //            System.out.println(listOfDriversFromBinary.get(i));
 
-        driverHandler.saveDriversToBinaryLocked(listOfDrivers, "output_data\\out.dat", ";");
-
+//        driverHandler.saveDriversToBinaryLocked(listOfDrivers, "output_data\\out.dat", ";");
+        driverHandler.saveDriversToTxtLocked(listOfDrivers, "output_data\\out.txt", separator);
 //        listOfDriversFromBinaryLocked = driverHandler.loadDriversFromBinaryLocked("output_data\\out.dat", separator, 1024);
 //        if (listOfDriversFromBinaryLocked.size() > 0) {
 //            System.out.println("List of drivers loaded from binary file with locking:");
