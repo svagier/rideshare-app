@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
  * Class that defines rides from origin A to destination B, offered by Drivers and accepted by Passengers
  *
  * @author Piotr Danielczyk
- * @version 1.0
+ * @version 1.4
  * @since 1.0
  */
 public class Ride {

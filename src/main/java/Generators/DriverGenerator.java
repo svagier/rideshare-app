@@ -12,6 +12,9 @@ import java.util.Random;
 
 /**
  * Generates list of drivers, based on data from .csv with random names and ids
+ * @author Piotr Danielczyk
+ * @version 1.4
+ * @since 1.3
  */
 public class DriverGenerator {
     private int numberOfDrivers;

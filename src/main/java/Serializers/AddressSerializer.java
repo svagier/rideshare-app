@@ -7,6 +7,9 @@ import java.util.ArrayList;
 
 /**
  * The type Address serializer - enables serialization and deserialization to and from files.
+ * @author Piotr Danielczyk
+ * @version 1.4
+ * @since 1.4
  */
 public class AddressSerializer {
 

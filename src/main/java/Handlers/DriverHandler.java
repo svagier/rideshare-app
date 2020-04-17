@@ -9,6 +9,9 @@ import static java.lang.Integer.parseInt;
 
 /**
  * The type Driver handler. Responsible for reading/writing lists of Drivers to and from files.
+ * @author Piotr Danielczyk
+ * @version 1.4
+ * @since 1.4
  */
 public class DriverHandler {
     /**

@@ -11,6 +11,9 @@ import java.util.Locale;
 
 /**
  * The type Mirrorify task, which makes mirror versions of all images in the list of Drivers.
+ * @author Piotr Danielczyk
+ * @version 1.4
+ * @since 1.3
  */
 public class MirrorifyTask implements Runnable {
 

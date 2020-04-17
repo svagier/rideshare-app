@@ -10,6 +10,9 @@ import java.util.List;
 
 /**
  * The type Greenify task, which makes green versions of all images in the list of Drivers.
+ * @author Piotr Danielczyk
+ * @version 1.4
+ * @since 1.3
  */
 public class GreenifyTask implements Runnable {
     private List<Driver> drivers;

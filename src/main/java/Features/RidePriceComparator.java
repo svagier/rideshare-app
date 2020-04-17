@@ -4,6 +4,9 @@ import java.util.Comparator;
 
 /**
  * The type Ride Price Comparator, which compares 2 rides on the basis of their price per passenger.
+ * @author Piotr Danielczyk
+ * @version 1.4
+ * @since 1.2
  */
 public class RidePriceComparator implements Comparator<Ride> {
 

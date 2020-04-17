@@ -16,7 +16,7 @@ import main.java.Features.Ride;
  * right now car model and car license plate are not obligatory - it may change in the future
  *
  * @author Piotr Danielczyk
- * @version 1.0
+ * @version 1.4
  * @since 1.0
  */
 public class Driver extends User {

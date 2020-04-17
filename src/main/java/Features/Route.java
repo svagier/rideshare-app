@@ -2,6 +2,9 @@ package main.java.Features;
 
 /**
  * The type Route. Specifies a route from address A to address B.
+ * @author Piotr Danielczyk
+ * @version 1.4
+ * @since 1.2
  */
 public class Route implements Cloneable, Comparable<Route>{
     private Address start;
@@ -12,8 +15,8 @@ public class Route implements Cloneable, Comparable<Route>{
     /**
      * Instantiates a new Route.
      *
-     * @param origin               the origin Addres
-     * @param destination          the destination Addres
+     * @param origin               the origin Address
+     * @param destination          the destination Address
      * @param distance             the distance between origin and destination
      * @param doesContainPaidRoads boolean, true if the route contains paid roads
      */

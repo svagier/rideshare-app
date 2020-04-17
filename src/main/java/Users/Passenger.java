@@ -6,7 +6,7 @@ import main.java.Features.Ride;
  * The type Passenger.
  *
  * @author Piotr Danielczyk
- * @version 1.0
+ * @version 1.4
  * @since 1.0
  */
 public class Passenger extends User{

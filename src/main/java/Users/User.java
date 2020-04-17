@@ -4,9 +4,9 @@ package main.java.Users;
 
 /**
  * Basic User class after which all specific types of users inherit.
- * @author      Piotr Danielczyk
- * @version     1.0
- * @since       1.0
+ * @author Piotr Danielczyk
+ * @version 1.4
+ * @since 1.0
  */
 abstract class User {
     private String username;
