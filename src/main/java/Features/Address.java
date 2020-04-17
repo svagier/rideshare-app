@@ -2,6 +2,7 @@ package main.java.Features;
 
 import main.java.Users.Driver;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,7 +15,7 @@ import java.util.Collections;
  * @version 1.0
  * @since 1.0
  */
-public class Address implements Cloneable {
+public class Address implements Cloneable, Serializable {
     private String city;
     private String country;
     private String street;
@@ -178,6 +179,7 @@ public class Address implements Cloneable {
             return new Address(this.getCity(), this.getCountry(), this.getStreet(), this.getBuildingNumber());
         }
     }
+
 
     /**
      * Is abroad boolean.
