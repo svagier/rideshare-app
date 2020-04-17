@@ -5,8 +5,18 @@ import main.java.Features.Address;
 import java.io.*;
 import java.util.ArrayList;
 
+/**
+ * The type Address serializer - enables serialization and deserialization to and from files.
+ */
 public class AddressSerializer {
 
+    /**
+     * Serialize Addresses from a given list to a file.
+     *
+     * @param listOfAddresses    the list of Addresses
+     * @param outputPathWithFile the output path with file, with included file extension
+     * @return true if successfully serialized, false if error happened
+     */
     public boolean serializeToFile (ArrayList<Address> listOfAddresses, String outputPathWithFile) {
         System.out.println("\nAttempting to serialize a list of Addresses to the given file.");
         try
@@ -27,18 +37,28 @@ public class AddressSerializer {
             System.out.println("Serialization has ended. The list has been saved to " + outputPathWithFile);
             return true;
         } catch (IOException e) {
-            System.out.println("IOException happened.\n");
+            System.out.println("IOException has been caught.");
+            e.printStackTrace();
+            return false;
+        }
+        catch (Exception e) {
+            System.out.println("Exception has been caught.");
             e.printStackTrace();
             return false;
         }
     }
 
+    /**
+     * Deserialize Addresses from file and return an array list of them.
+     *
+     * @param inputPathWithFile the output path with file, with included file extension
+     * @return the array list of deserialized Addresses
+     */
     public ArrayList<Address> deserializeFromFile (String inputPathWithFile) {
         System.out.println("\nAttempting to deserialize a list of Addresses from the given file.");
         ArrayList<Address> loadedListOfAddresses = new ArrayList<Address>();
         try
         {
-            // Reading the object from a file
             FileInputStream file = new FileInputStream(inputPathWithFile);
             ObjectInputStream inputStream = new ObjectInputStream(file);
 

@@ -1,12 +1,9 @@
 package main.java.Features;
 
 import main.java.Serializers.AddressSerializer;
-import main.java.Users.Driver;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 
 /**
  * Address class to specify destination and origin of rides
@@ -30,7 +27,7 @@ public class Address implements Cloneable, Serializable {
      * @param street         the street
      * @param buildingNumber the building number on the given street
      */
-    public Address(String city, String street, int buildingNumber){
+    public Address(String city, String street, int buildingNumber) {
         this.city = city;
         this.country = "Poland";
         this.street = street;
@@ -46,7 +43,7 @@ public class Address implements Cloneable, Serializable {
      * @param street         the street name
      * @param buildingNumber the building number on the given street
      */
-    public Address(String city, String country, String street, int buildingNumber){
+    public Address(String city, String country, String street, int buildingNumber) {
         this.city = city;
         this.country = country;
         this.street = street;
@@ -84,8 +81,6 @@ public class Address implements Cloneable, Serializable {
         System.out.println("Deserialized list of Addresses from the file:");
         for (int i=0; i<deserializedListOfAddresses.size(); i++)
             System.out.println(deserializedListOfAddresses.get(i));
-
-
     }
 
 
