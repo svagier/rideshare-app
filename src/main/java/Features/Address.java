@@ -85,6 +85,7 @@ public class Address implements Cloneable, Serializable {
         for (int i=0; i<deserializedListOfAddresses.size(); i++)
             System.out.println(deserializedListOfAddresses.get(i));
 
+
     }
 
 
@@ -122,7 +123,7 @@ public class Address implements Cloneable, Serializable {
      */
     public boolean isAbroad() {
         // returns true if country is different than Poland. Poland here is considered as homecountry
-        if (this.country == "Poland") {
+        if (this.getCountry().equals("Poland")) {
             return (false);
         }
         else {
