@@ -8,6 +8,7 @@ import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.io.*;
@@ -222,7 +223,18 @@ public class DriverHandler {
                 channel.close();
                 return false;
             }
-        } catch (Exception e) {
+        } catch (FileNotFoundException e) {
+            System.out.println("The file at path " + outputPathWithFile + " has not been found. " +
+                    "Make sure that the path, filename and extension are correct. Create new directories/files if necessary. Exiting.");
+            return false;
+        }
+        catch (NoSuchFileException e) {
+            System.out.println("The file at path " + outputPathWithFile + " has not been found. " +
+                    "Make sure that the path, filename and extension are correct. Create new directories/files if necessary. Exiting.");
+            return false;
+        }
+        catch (Exception e) {
+            System.out.println("Exception happened: " + e);
             e.printStackTrace();
             return false;
         }
@@ -267,10 +279,20 @@ public class DriverHandler {
                 System.out.println("The file " + inputPathWithFile + " is locked by another process. Exiting.\n");
                 channel.close();
             }
-        } catch (Exception e) {
-            System.out.println("Error: " + e);
+        } catch (FileNotFoundException e) {
+            System.out.println("The file at path " + inputPathWithFile + " has not been found. " +
+                    "Make sure that the path, filename and extension are correct. Create new directories/files if necessary. Exiting.");
+            return loadedListOfDrivers;
+        }
+        catch (NoSuchFileException e) {
+            System.out.println("The file at path " + inputPathWithFile + " has not been found. " +
+                    "Make sure that the path, filename and extension are correct. Create new directories/files if necessary. Exiting.");
+            return loadedListOfDrivers;
+        }
+        catch (Exception e) {
+            System.out.println("Exception happened: " + e);
             e.printStackTrace();
-            return null;
+            return loadedListOfDrivers;
         }
         return loadedListOfDrivers;
     }
@@ -435,10 +457,12 @@ public class DriverHandler {
          *            has to be started withing 5s (or custom set sleep value) of starting this one.
          *            Then both DriverHandler main()s will want to access the same files at the same time.
          */
-        driverHandler.saveDriversToBinaryLocked(listOfDrivers, "output_data\\out.dat", ";");
-        driverHandler.saveDriversToTxtLocked(listOfDrivers, "output_data\\out.txt", separator);
-        listOfDriversFromBinaryLocked = driverHandler.loadDriversFromBinaryLocked("output_data\\out.dat", separator, 1024);
-        listOfDriversFromTxtLocked = driverHandler.loadDriversFromTxtLocked("output_data\\out.txt", separator);
+        String binaryPathWithFile = "output_data\\out.dat";
+        String txrPathWithFile = "soutput_data\\out.txt";
+        driverHandler.saveDriversToBinaryLocked(listOfDrivers, binaryPathWithFile, ";");
+        driverHandler.saveDriversToTxtLocked(listOfDrivers, txrPathWithFile, separator);
+        listOfDriversFromBinaryLocked = driverHandler.loadDriversFromBinaryLocked(binaryPathWithFile, separator, 1024);
+        listOfDriversFromTxtLocked = driverHandler.loadDriversFromTxtLocked(txrPathWithFile, separator);
 
         if (listOfDriversFromTxtLocked.size() > 0) {
             System.out.println("\nList of drivers loaded from txt file with locking:");
