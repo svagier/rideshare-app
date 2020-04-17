@@ -18,12 +18,23 @@ import static java.nio.channels.Channels.newOutputStream;
 
 /**
  * The type Driver handler. Responsible for reading/writing lists of Drivers to and from files.
+ *
  * @author Piotr Danielczyk
  * @version 1.4
  * @since 1.4
  */
 public class DriverHandler {
-    private int sleepDelay = 5000;        // in ms
+    private int sleepDelay = 5000;        // default, in ms
+
+    /**
+     * Instantiates a new Driver handler, with specified sleep delay values .
+     *
+     * @param sleepDelay the sleep delay (in milliseconds)
+     */
+    public DriverHandler(int sleepDelay) {
+        this.sleepDelay = sleepDelay;
+    }
+
     /**
      * Save Drivers from the list of Drivers to .txt file.
      *
@@ -52,7 +63,7 @@ public class DriverHandler {
     /**
      * Load drivers from a specified txt file to an array list of Drivers.
      *
-     * @param inputPathWithFile the input path with file
+     * @param inputPathWithFile the input path with file, file extensions .txt should be added
      * @param separator         the separator
      * @return the array list of Drivers
      */
@@ -171,6 +182,14 @@ public class DriverHandler {
         return loadedListOfDrivers;
     }
 
+    /**
+     * Save Drivers from the list of Drivers to .txt file using lock mechanism.
+     *
+     * @param listOfDrivers      the list of Drivers
+     * @param outputPathWithFile the output path with file, file extensions .txt should be added
+     * @param separator          the separator between columns of values
+     * @return the boolean True if saved successfully, false if exception happened.
+     */
     public boolean saveDriversToTxtLocked(ArrayList<Driver> listOfDrivers, String outputPathWithFile, String separator) {
         System.out.println("\nAttempting to save given list of Drivers to txt file with lock.");
         try {
@@ -181,7 +200,6 @@ public class DriverHandler {
             if (lock != null) {
                 System.out.println("The file is not locked. Attempting to process the file and save the Drivers to it...");
                 PrintWriter writer = new PrintWriter(out);
-
                 for (int i=0; i < listOfDrivers.size(); i++) {
                     sleep(this.getSleepDelay());
                     writer.print(driverToLine(listOfDrivers.get(i), separator));
@@ -202,6 +220,13 @@ public class DriverHandler {
         }
     }
 
+    /**
+     * Load drivers from a specified txt file using a lock mechanism to an array list of Drivers.
+     *
+     * @param inputPathWithFile the input path with file, file extensions .txt should be added
+     * @param separator         the separator
+     * @return the array list of Drivers
+     */
     public ArrayList<Driver> loadDriversFromTxtLocked(String inputPathWithFile, String separator) {
         System.out.println("\nAttempting to load a list of Drivers from the given txt file with lock.");
         ArrayList<Driver> loadedListOfDrivers = new ArrayList<Driver>();
@@ -243,6 +268,14 @@ public class DriverHandler {
     }
 
 
+    /**
+     * Save drivers to binary using locked mechanism boolean.
+     *
+     * @param listOfDrivers      the list of Drivers
+     * @param outputPathWithFile the output path with file, should have extensions included, like .dat
+     * @param separator          the separator
+     * @return the boolean True if saved successfully, false if exception happened.
+     */
     public boolean saveDriversToBinaryLocked(ArrayList<Driver> listOfDrivers, String outputPathWithFile, String separator) {
         System.out.println("\nAttempting to save given list of Drivers to binary file with lock.");
         try {
@@ -271,6 +304,14 @@ public class DriverHandler {
         }
     }
 
+    /**
+     * Load drivers from a specified binary file using lock mechanism to an array list of Drivers.
+     *
+     * @param inputPathWithFile the input path with file and file extension, like .dat
+     * @param separator         the separator
+     * @param bufferSize        the buffer size
+     * @return the array list of Drivers
+     */
     public ArrayList<Driver> loadDriversFromBinaryLocked(String inputPathWithFile, String separator, int bufferSize) {
         System.out.println("\nAttempting to load Drivers from binary file with lock.");
         ArrayList<Driver> loadedListOfDrivers = new ArrayList<>();
@@ -314,10 +355,20 @@ public class DriverHandler {
         return loadedListOfDrivers;
     }
 
+    /**
+     * Gets sleep delay.
+     *
+     * @return the sleep delay in ms
+     */
     public int getSleepDelay() {
         return sleepDelay;
     }
 
+    /**
+     * Sets sleep delay.
+     *
+     * @param sleepDelay the sleep delay in ms
+     */
     public void setSleepDelay(int sleepDelay) {
         this.sleepDelay = sleepDelay;
     }
@@ -379,9 +430,12 @@ public class DriverHandler {
 //        listOfDriversFromBinaryLocked = driverHandler.loadDriversFromBinaryLocked("output_data\\out.dat", separator, 1024);
 
         listOfDriversFromTxtLocked = driverHandler.loadDriversFromTxtLocked("output_data\\out.txt", separator);
-        System.out.println("List of drivers loaded from txt file locked:");
-        for (int i=0; i<listOfDriversFromTxtLocked.size(); i++)
-            System.out.println(listOfDriversFromTxtLocked.get(i));
+        if (listOfDriversFromTxtLocked.size() > 0) {
+            System.out.println("List of drivers loaded from txt file locked:");
+            for (int i=0; i<listOfDriversFromTxtLocked.size(); i++)
+                System.out.println(listOfDriversFromTxtLocked.get(i));
+        }
+
 
 //        if (listOfDriversFromBinaryLocked.size() > 0) {
 //            System.out.println("List of drivers loaded from binary file with locking:");
