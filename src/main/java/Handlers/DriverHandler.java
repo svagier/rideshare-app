@@ -160,16 +160,43 @@ public class DriverHandler {
             }
             fis.close();
 
-        } catch (IOException ex) {
-            ex.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
         return loadedListOfDrivers;
     }
 
+    public boolean saveDriversToBinaryLocked(ArrayList<Driver> listOfDrivers, String outputPathWithFile, String separator) {
+        System.out.println("\nAttempting to save given list of Drivers to binary file with lock.");
+        try {
+            RandomAccessFile file = new RandomAccessFile(outputPathWithFile, "rw");
+            FileChannel channel = file.getChannel();
+            FileLock lock = channel.tryLock();
+            if (lock != null) {
+                System.out.println("The file is not locked. Attempting to process the file and save the Drivers to it...");
+                for (int i=0; i < listOfDrivers.size(); i++){
+                    sleep(10000);
+                    ByteBuffer buff = ByteBuffer.wrap(driverToLine(listOfDrivers.get(i), separator).getBytes(StandardCharsets.UTF_8));
+                    channel.write(buff);
+                }
+                System.out.println("List of drivers saved to " + outputPathWithFile);
+                channel.close();
+                return true;
+            }
+            else {
+                System.out.println("The file " + outputPathWithFile + " is locked by another process. Exiting.\n");
+                channel.close();
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
     public ArrayList<Driver> loadDriversFromBinaryLocked(String inputPathWithFile, String separator, int bufferSize) {
-        System.out.println("\nInside loadDriversFromBinaryLocked()");
+        System.out.println("\nAttempting to load Drivers from binary file with lock.");
         ArrayList<Driver> loadedListOfDrivers = new ArrayList<>();
         try {
             RandomAccessFile file = new RandomAccessFile(inputPathWithFile, "rw");
@@ -197,16 +224,15 @@ public class DriverHandler {
                         System.out.println("Error: " + e + " in line " + i);
                         e.printStackTrace();
                     }
-
                 }
+                channel.close();
             }
             else {
-                System.out.println("The file is locked by another process. Exiting.\n");
-//                return null;
+                System.out.println("The file " + inputPathWithFile + " is locked by another process. Exiting.\n");
+                channel.close();
             }
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
         return loadedListOfDrivers;
@@ -239,12 +265,12 @@ public class DriverHandler {
 //        String imageFormat = "jpg";
 //        ArrayList<Driver> listOfDrivers = driverGenerator.generateDrivers(pathToCsv, imagesInputPath, imageFormat);
 
-//        Driver dummyDriver1 = new Driver("driver_nick", "Tim", "Dunkey", "123456");
-//        Driver dummyDriver2 = new Driver("other_driver_nick", "Jim", "Carter", "654321");
-//
-//        ArrayList<Driver> listOfDrivers = new ArrayList<Driver>();
-//        listOfDrivers.add(dummyDriver1);
-//        listOfDrivers.add(dummyDriver2);
+        Driver dummyDriver1 = new Driver("driver_nick", "Tim", "Dunkey", "123456");
+        Driver dummyDriver2 = new Driver("other_driver_nick", "Jim", "Carter", "654321");
+
+         ArrayList<Driver> listOfDrivers = new ArrayList<Driver>();
+        listOfDrivers.add(dummyDriver1);
+        listOfDrivers.add(dummyDriver2);
 
         DriverHandler driverHandler = new DriverHandler();
         ArrayList<Driver> listOfDriversFromBinary;
@@ -265,12 +291,14 @@ public class DriverHandler {
 //        for (int i=0; i<listOfDriversFromBinary.size(); i++)
 //            System.out.println(listOfDriversFromBinary.get(i));
 
-        listOfDriversFromBinaryLocked = driverHandler.loadDriversFromBinaryLocked("output_data\\out.dat", separator, 1024);
-        if (listOfDriversFromBinaryLocked.size() > 0) {
-            System.out.println("List of drivers loaded from binary file with locking:");
-            for (int i=0; i<listOfDriversFromBinaryLocked.size(); i++)
-                System.out.println(listOfDriversFromBinaryLocked.get(i));
-        }
+        driverHandler.saveDriversToBinaryLocked(listOfDrivers, "output_data\\out.dat", ";");
+
+//        listOfDriversFromBinaryLocked = driverHandler.loadDriversFromBinaryLocked("output_data\\out.dat", separator, 1024);
+//        if (listOfDriversFromBinaryLocked.size() > 0) {
+//            System.out.println("List of drivers loaded from binary file with locking:");
+//            for (int i=0; i<listOfDriversFromBinaryLocked.size(); i++)
+//                System.out.println(listOfDriversFromBinaryLocked.get(i));
+//        }
 
     }
 }
